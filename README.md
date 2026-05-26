@@ -12,9 +12,13 @@ Do not use this repository for private product code, credentials, internal imple
 
 - `/index.html` - Root public landing page.
 - `/privacy/aevon/` - Aevon privacy policy.
+- `/privacy/ironveil/` - Ironveil privacy policy.
 - `/patch-notes/aevon/` - Public Aevon patch notes.
+- `/patch-notes/ironveil/` - Public Ironveil patch notes.
 - `/support/` - Support contact and support request guidance.
+- `/support/ironveil/` - Ironveil support information.
 - `/legal/terms/` - Minimal public terms information.
+- `/legal/terms/ironveil/` - Ironveil terms information.
 - `/security/` - Security contact instructions.
 - `/assets/css/` - Shared site styling.
 
