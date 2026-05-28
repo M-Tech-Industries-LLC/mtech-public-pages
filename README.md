@@ -11,9 +11,12 @@ Do not use this repository for private product code, credentials, internal imple
 ## Folder Structure
 
 - `/index.html` - Root public landing page.
-- `/privacy/aevon/` - Aevon privacy policy.
+- `/privacy/afon/` - Afon privacy policy.
+- `/support/afon/` - Afon support information.
+- `/legal/terms/afon/` - Afon terms information.
 - `/privacy/ironveil/` - Ironveil privacy policy.
-- `/patch-notes/aevon/` - Public Aevon patch notes.
+- `/patch-notes/afon/` - Public Afon patch notes.
+- `/known-issues/afon/` - Public Afon known issues.
 - `/patch-notes/ironveil/` - Public Ironveil patch notes.
 - `/support/` - Support contact and support request guidance.
 - `/support/ironveil/` - Ironveil support information.
