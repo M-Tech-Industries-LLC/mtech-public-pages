@@ -11,19 +11,24 @@ Do not use this repository for private product code, credentials, internal imple
 ## Folder Structure
 
 - `/index.html` - Root public landing page.
-- `/privacy/afon/` - Afon privacy policy.
-- `/support/afon/` - Afon support information.
+- `/afon.html` - Afon product information.
+- `/afon-privacy.html` - Afon privacy policy.
+- `/testing/` - Product testing hub.
+- `/testing/afon/` - Afon testing information.
+- `/testing/senta/` - Reserved testing route.
+- `/testing/ironveil/` - Reserved testing route.
+- `/patch-notes/` - Product patch notes hub.
+- `/patch-notes/afon/` - Afon structured release history.
+- `/patch-notes/senta/` - Reserved patch notes route.
+- `/patch-notes/ironveil/` - Reserved patch notes route.
 - `/legal/terms/afon/` - Afon terms information.
-- `/privacy/ironveil/` - Ironveil privacy policy.
-- `/patch-notes/afon/` - Public Afon patch notes.
 - `/known-issues/afon/` - Public Afon known issues.
-- `/patch-notes/ironveil/` - Public Ironveil patch notes.
 - `/support/` - Support contact and support request guidance.
-- `/support/ironveil/` - Ironveil support information.
 - `/legal/terms/` - Minimal public terms information.
-- `/legal/terms/ironveil/` - Ironveil terms information.
 - `/security/` - Security contact instructions.
 - `/assets/css/` - Shared site styling.
+- `/assets/data/patch-notes.json` - Structured release and testing data.
+- `/assets/js/patch-notes.js` - Shared patch notes and testing renderer.
 
 ## Updating Pages
 

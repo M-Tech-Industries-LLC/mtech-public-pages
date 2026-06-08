@@ -1,0 +1,206 @@
+{
+  "products": {
+    "afon": {
+      "name": "Afon",
+      "category": "Browser",
+      "description": "Afon is a browser from M-Tech Industries focused on dependable, privacy-conscious browsing for personal and managed environments.",
+      "testing": {
+        "currentVersion": "0.1.1+13",
+        "currentAndroidBuild": "13",
+        "currentIosBuild": "13",
+        "links": [
+          {
+            "label": "Android Testing Link",
+            "url": ""
+          },
+          {
+            "label": "iOS TestFlight Link",
+            "url": ""
+          }
+        ],
+        "feedback": "Report issues to support@m-techindustries.com with the version, platform, device, and a short description of what happened.",
+        "diagnosticExclusions": [
+          "page content",
+          "search terms",
+          "form data",
+          "cookies",
+          "authentication tokens"
+        ]
+      },
+      "releases": [
+        {
+          "version": "0.1.1+13",
+          "buildNumber": "13",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "summary": "Improved privacy controls, site exception handling, diagnostics, and Android compatibility.",
+          "whatsNew": [
+            "Fixed Enhanced Privacy selection on Android",
+            "Improved YouTube compatibility through trusted in-browser navigation handling",
+            "Added expanded privacy-safe page failure diagnostics",
+            "Improved tracker exception handling and validation",
+            "Improved site protection exception management"
+          ],
+          "fixes": [
+            "Fixed site protection exception persistence",
+            "Fixed Enhanced Privacy selection state",
+            "Improved subresource error handling",
+            "Improved diagnostics reporting reliability"
+          ],
+          "knownIssues": [
+            "Some websites may experience intermittent Android WebView compatibility issues",
+            "CrushOn.ai compatibility investigation remains ongoing"
+          ]
+        },
+        {
+          "version": "0.1.1+12",
+          "buildNumber": "12",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "summary": "Privacy improvements, diagnostics reporting, and stability enhancements.",
+          "whatsNew": [
+            "Improved Private Session behavior and persistence",
+            "Simplified Settings and privacy controls",
+            "Added page failure reporting",
+            "Improved tracker and ad protection",
+            "Enhanced Privacy framework improvements"
+          ],
+          "testerFocus": [
+            "Website compatibility",
+            "Login and media playback",
+            "Private Session behavior"
+          ]
+        },
+        {
+          "version": "0.1.1+11",
+          "buildNumber": "11",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "summary": "Stability and privacy improvements.",
+          "whatsNew": [
+            "Improved Private Session persistence",
+            "Enhanced blocked page messaging",
+            "Improved navigation handling",
+            "Added crash diagnostics framework",
+            "Added optional swipe-to-go-back setting"
+          ]
+        },
+        {
+          "version": "0.1.1+10",
+          "buildNumber": "10",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "summary": "Migration from Aevon Browser to Afon Browser.",
+          "whatsNew": [
+            "Branding migration completed",
+            "Continued privacy mode improvements",
+            "Startup behavior improvements",
+            "Session persistence refinements"
+          ],
+          "fixes": [
+            "Corrected Private Session persistence behavior",
+            "Improved browsing mode restoration"
+          ]
+        },
+        {
+          "version": "0.1.1+8",
+          "buildNumber": "8",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "summary": "Initial Afon beta release.",
+          "whatsNew": [
+            "Website navigation improvements",
+            "Address bar search and URL handling",
+            "Bookmark management improvements",
+            "Search provider customization",
+            "Privacy control refinements",
+            "Browser stability improvements"
+          ]
+        },
+        {
+          "group": "Aevon Browser Testing Milestones",
+          "version": "0.1.1+7",
+          "buildNumber": "7",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "whatsNew": [
+            "Expanded Android and iOS testing",
+            "Enterprise policy validation",
+            "Browser stability improvements"
+          ]
+        },
+        {
+          "group": "Aevon Browser Testing Milestones",
+          "version": "0.1.1+6",
+          "buildNumber": "6",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "whatsNew": [
+            "Improved tab readability",
+            "Android voice search support",
+            "Browser routing improvements",
+            "Quick search widget improvements",
+            "Site exception support",
+            "Privacy session improvements",
+            "Startup persistence improvements",
+            "Public privacy and support links"
+          ]
+        },
+        {
+          "group": "Aevon Browser Testing Milestones",
+          "version": "0.1.1+5",
+          "buildNumber": "5",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "whatsNew": [
+            "Browser stability improvements",
+            "Navigation refinements",
+            "Bookmark improvements",
+            "Privacy mode improvements"
+          ]
+        },
+        {
+          "group": "Aevon Browser Testing Milestones",
+          "version": "0.1.1+4",
+          "buildNumber": "4",
+          "releaseDate": "June 2026",
+          "platforms": ["Android", "iOS"],
+          "whatsNew": [
+            "Initial broader testing milestone",
+            "Cross-platform stabilization",
+            "Settings cleanup",
+            "Bookmark handling improvements"
+          ]
+        }
+      ]
+    },
+    "senta": {
+      "name": "Senta",
+      "category": "Reserved",
+      "description": "Patch notes and testing information for Senta will be published when public materials are ready.",
+      "testing": {
+        "currentVersion": "Reserved",
+        "currentAndroidBuild": "Reserved",
+        "currentIosBuild": "Reserved",
+        "links": [],
+        "feedback": "Testing information will be added when public materials are ready.",
+        "diagnosticExclusions": []
+      },
+      "releases": []
+    },
+    "ironveil": {
+      "name": "Ironveil",
+      "category": "Reserved",
+      "description": "Patch notes and testing information for Ironveil will be published when public materials are ready.",
+      "testing": {
+        "currentVersion": "Reserved",
+        "currentAndroidBuild": "Reserved",
+        "currentIosBuild": "Reserved",
+        "links": [],
+        "feedback": "Testing information will be added when public materials are ready.",
+        "diagnosticExclusions": []
+      },
+      "releases": []
+    }
+  }
+}
