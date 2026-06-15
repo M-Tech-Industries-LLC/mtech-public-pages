@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "installedThemes": [
+    {
+      "themeId": "nebula",
+      "publisherId": "mtech",
+      "version": "1.0.0",
+      "installState": "installed",
+      "active": false,
+      "installedAt": "2026-06-15T00:00:00Z",
+      "lastValidatedAt": "2026-06-15T00:00:00Z",
+      "source": "mtech_catalog",
+      "packageHash": "",
+      "signature": "",
+      "localPath": ""
+    }
+  ]
+}

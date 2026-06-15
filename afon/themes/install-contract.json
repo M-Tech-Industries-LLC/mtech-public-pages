@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "installStates": [
+    "available",
+    "downloading",
+    "downloaded",
+    "validating",
+    "installed",
+    "active",
+    "failed",
+    "removed",
+    "deprecated",
+    "incompatible"
+  ],
+  "requiredValidation": [
+    "manifest_schema",
+    "theme_id_match",
+    "publisher_id_match",
+    "version_compatibility",
+    "package_hash",
+    "signature",
+    "cosmetic_only_scope"
+  ],
+  "fallbackTheme": "classic",
+  "allowsRollback": true,
+  "allowsCodeExecution": false,
+  "allowsWebViewModification": false
+}
