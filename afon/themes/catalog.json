@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-06-15T00:00:00Z",
+  "themes": [
+    {
+      "themeId": "nebula",
+      "publisherId": "mtech",
+      "name": "Nebula",
+      "description": "A space-inspired visual theme for Afon.",
+      "version": "1.0.0",
+      "minAfonVersion": "0.1.0",
+      "packageUrl": "https://m-techindustries.com/afon/themes/nebula/package.zip",
+      "manifestUrl": "https://m-techindustries.com/afon/themes/nebula/manifest.json",
+      "previewUrl": "https://m-techindustries.com/afon/themes/nebula/preview.webp",
+      "sha256": "",
+      "signature": "",
+      "status": "staged",
+      "tags": ["space", "dark", "premium"]
+    }
+  ]
+}
