@@ -10,6 +10,16 @@ The lifecycle is:
 download -> validate -> install -> register -> activate -> rollback/remove
 ```
 
+## Phase 1 Service Responsibilities
+
+Theme Engine Phase 1 is represented by three client-side services:
+
+- `ThemeRegistryService`: Loads the remote theme catalog, validates the catalog shape, validates the documented local registry shape, and discovers theme records such as Nebula.
+- `ThemeInstallService`: Loads the install contract, fetches theme install and manifest metadata, validates package metadata, validates cosmetic-only tokens, and writes installed metadata to the local theme cache.
+- `ThemeActivationService`: Activates installed themes, deactivates themes, and restores the `classic` fallback theme when activation is unsafe.
+
+The local theme cache records installed theme metadata using the shape documented in `/afon/themes/registry-schema.json`.
+
 ## Client Lifecycle States
 
 Theme clients should use the install states from `/afon/themes/install-contract.json`:
@@ -124,3 +134,19 @@ The install lifecycle should remain compatible with a future marketplace or CDN-
 - Activation remains reversible.
 - `classic` remains the safe fallback theme.
 - Theme packages remain cosmetic-only.
+
+## Nebula Phase 1 Lifecycle
+
+Nebula is the first installable test package for the Phase 1 contract:
+
+1. `ThemeRegistryService` fetches `/afon/themes/catalog.json`.
+2. The service locates the `nebula` theme record.
+3. `ThemeInstallService` fetches `/afon/themes/install-contract.json`.
+4. The service fetches Nebula install metadata from `/afon/themes/nebula/install.json`.
+5. The service fetches Nebula manifest metadata from `/afon/themes/nebula/manifest.json`.
+6. The service validates identity, version, install policy, compatibility requirements, cosmetic-only behavior, and color tokens.
+7. The service writes Nebula to the local theme cache with `installState` set to `installed`.
+8. `ThemeActivationService` marks Nebula `active` only after installation succeeds.
+9. If validation or activation fails, the service leaves the current active theme unchanged or restores `classic`.
+
+Nebula remains a metadata-only test package until package download, hash, and signature assets are ready. The client contract still includes package hash and signature fields so the validation path does not need to change later.
