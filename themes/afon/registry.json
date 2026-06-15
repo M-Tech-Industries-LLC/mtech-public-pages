@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-15T00:00:00Z",
+  "themes": [
+    {
+      "themeId": "nebula",
+      "publisherId": "mtech",
+      "name": "Nebula",
+      "description": "A space-inspired visual theme for Afon.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "previewUrl": "https://m-tech-industries-llc.github.io/mtech-public-pages/afon/themes/nebula/preview.webp",
+      "manifestUrl": "https://m-tech-industries-llc.github.io/mtech-public-pages/afon/themes/nebula/manifest.json"
+    }
+  ]
+}
