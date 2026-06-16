@@ -15,5 +15,8 @@
   "assets": {
     "preview": "preview.webp",
     "background": "background.webp"
+  },
+  "visuals": {
+    "backgroundImage": "background.webp"
   }
 }
