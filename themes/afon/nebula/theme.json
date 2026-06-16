@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "themeId": "nebula",
+  "publisherId": "mtech",
+  "version": "1.0.0",
+  "mode": "custom",
+  "tokens": {
+    "accent": "#8A6CFF",
+    "toolbarBackground": "#111827",
+    "pageBackground": "#050816",
+    "cardBackground": "#111827",
+    "textPrimary": "#F9FAFB",
+    "textSecondary": "#CBD5E1"
+  },
+  "assets": {
+    "preview": "preview.webp",
+    "background": "background.webp"
+  }
+}

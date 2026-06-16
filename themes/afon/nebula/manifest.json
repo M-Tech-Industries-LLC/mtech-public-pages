@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "themeId": "nebula",
+  "publisherId": "mtech",
+  "name": "Nebula",
+  "description": "A space-inspired visual theme for Afon.",
+  "version": "1.0.0",
+  "minAfonVersion": "0.1.0",
+  "packageType": "theme",
+  "themeMode": "custom",
+  "behaviorScope": "cosmetic_only",
+  "allowsCodeExecution": false,
+  "allowsWebViewModification": false,
+  "tokens": {
+    "accent": "#8A6CFF",
+    "toolbarBackground": "#111827",
+    "pageBackground": "#050816",
+    "cardBackground": "#111827",
+    "textPrimary": "#F9FAFB",
+    "textSecondary": "#CBD5E1"
+  },
+  "assets": {
+    "preview": "preview.webp",
+    "background": "background.webp"
+  }
+}
