@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-16T00:00:00Z",
+  "updatedAt": "2026-06-19T00:00:00Z",
   "themes": [
     {
       "themeId": "nebula",
@@ -11,6 +11,17 @@
       "version": "1.0.0",
       "packageUrl": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/nebula/package.zip",
       "sha256Url": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/nebula/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "smoke",
+      "publisherId": "mtech",
+      "name": "Smoke",
+      "description": "A smoky neutral visual theme for Afon token testing.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/smoke/package.zip",
+      "sha256Url": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/smoke/package.sha256",
       "status": "active"
     }
   ]
