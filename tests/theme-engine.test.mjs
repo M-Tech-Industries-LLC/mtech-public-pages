@@ -102,7 +102,8 @@ const nebulaManifest = {
     pageBackground: "#050816",
     cardBackground: "#111827",
     textPrimary: "#F9FAFB",
-    textSecondary: "#CBD5E1"
+    textSecondary: "#CBD5E1",
+    searchFieldText: "#111827"
   },
   assets: {
     preview: "preview.webp",
