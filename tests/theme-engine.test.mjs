@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   LocalThemeCache,
@@ -8,6 +9,17 @@ import {
   ThemeRegistryService,
   ThemeDefaults
 } from "../assets/js/theme-engine.mjs";
+
+function readJson(path) {
+  return JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
+}
+
+function readBytes(path) {
+  return readFileSync(new URL(path, import.meta.url));
+}
+
+const nebulaPackageBytes = Buffer.from("nebula-package");
+const nebulaPackageHash = "bd12721f3067e31567e31c98175533b2d64074ce511f8f2280d1db1bb56fc961";
 
 const catalog = {
   schemaVersion: 1,
@@ -23,7 +35,7 @@ const catalog = {
       packageUrl: "https://m-techindustries.com/afon/themes/nebula/package.zip",
       manifestUrl: "https://m-techindustries.com/afon/themes/nebula/manifest.json",
       previewUrl: "https://m-techindustries.com/afon/themes/nebula/preview.webp",
-      sha256: "",
+      sha256: nebulaPackageHash,
       signature: "",
       status: "staged",
       tags: ["space", "dark"]
@@ -144,11 +156,19 @@ class MemoryStorage {
   }
 }
 
-function response(json, ok = true) {
+function response(body, ok = true) {
   return {
     ok,
     async json() {
-      return structuredClone(json);
+      return structuredClone(body);
+    },
+    async text() {
+      return typeof body === "string" ? body : String(body);
+    },
+    async arrayBuffer() {
+      if (Buffer.isBuffer(body)) return body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength);
+      const buffer = Buffer.from(String(body));
+      return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
     }
   };
 }
@@ -160,6 +180,8 @@ function createFetcher(overrides = {}) {
     "/afon/themes/install-contract.json": installContract,
     "https://m-techindustries.com/afon/themes/nebula/install.json": nebulaInstall,
     "https://m-techindustries.com/afon/themes/nebula/manifest.json": nebulaManifest,
+    "https://m-techindustries.com/afon/themes/nebula/package.sha256": nebulaPackageHash,
+    "https://m-techindustries.com/afon/themes/nebula/package.zip": nebulaPackageBytes,
     ...overrides
   };
 
@@ -186,12 +208,12 @@ test("discovers, validates, installs, activates, and reverts Nebula", async () =
   const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
   assert.equal(nebula.name, "Nebula");
 
-  const installedRegistry = await installService.installFromThemeRecord(nebula);
+  const installedRegistry = await installService.installFromThemeRecord(nebula, { unlockedThemeIds: ["nebula"] });
   const installedNebula = installedRegistry.installedThemes.find((theme) => theme.themeId === "nebula");
   assert.equal(installedNebula.installState, "installed");
   assert.equal(installedNebula.active, false);
 
-  const activeRegistry = activationService.activate("nebula");
+  const activeRegistry = activationService.activate("nebula", undefined, { unlockedThemeIds: ["nebula"] });
   assert.equal(activeRegistry.installedThemes.find((theme) => theme.themeId === "nebula").active, true);
   assert.equal(activeRegistry.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID).active, false);
 
@@ -217,7 +239,7 @@ test("invalid install never activates and falls back to default", async () => {
 
   const remoteCatalog = await registryService.loadRemoteCatalog();
   const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
-  const result = await installService.installFromThemeRecord(nebula);
+  const result = await installService.installFromThemeRecord(nebula, { unlockedThemeIds: ["nebula"] });
   const failedNebula = result.registry.installedThemes.find((theme) => theme.themeId === "nebula");
   const fallback = result.registry.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID);
 
@@ -244,7 +266,7 @@ test("theme package missing required fields is marked failed", async () => {
 
   const remoteCatalog = await registryService.loadRemoteCatalog();
   const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
-  const result = await installService.installFromThemeRecord(nebula);
+  const result = await installService.installFromThemeRecord(nebula, { unlockedThemeIds: ["nebula"] });
 
   assert.equal(result.registry.installedThemes.find((theme) => theme.themeId === "nebula").installState, "failed");
   assert.equal(result.registry.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID).active, true);
@@ -267,7 +289,7 @@ test("invalid install JSON is marked failed without changing active theme", asyn
 
   const remoteCatalog = await registryService.loadRemoteCatalog();
   const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
-  const result = await installService.installFromThemeRecord(nebula);
+  const result = await installService.installFromThemeRecord(nebula, { unlockedThemeIds: ["nebula"] });
 
   assert.equal(result.registry.installedThemes.find((theme) => theme.themeId === "nebula").installState, "failed");
   assert.equal(result.registry.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID).active, true);
@@ -421,7 +443,7 @@ test("registry display logging includes counts and never logs unlock codes", () 
   displayService.buildVisibleThemes({
     remoteCatalog: catalog,
     localRegistry: { schemaVersion: 1, installedThemes: [] },
-    unlockedThemeIds: ["nebula", "SECRET-UNLOCK-CODE-123"]
+    unlockedThemeIds: ["nebula", "unknown-theme-id"]
   });
 
   assert.equal(logs[0].event, "theme_registry_fetch_success");
@@ -429,5 +451,206 @@ test("registry display logging includes counts and never logs unlock codes", () 
   assert.equal(logs[0].data.visible_count, 1);
   assert.equal(logs[0].data.merged_count, 1);
   assert.equal(logs[0].data.filtered_count, 0);
-  assert.equal(JSON.stringify(logs).includes("SECRET-UNLOCK-CODE-123"), false);
+  assert.equal(JSON.stringify(logs).includes("unknown-theme-id"), false);
+});
+
+test("canonical Afon catalog validates, displays, installs, and activates Smoke, Nebula, and Ice", async () => {
+  const canonicalCatalog = readJson("../afon/themes/catalog.json");
+  const canonicalInstallContract = readJson("../afon/themes/install-contract.json");
+  const canonicalRegistrySchema = readJson("../afon/themes/registry-schema.json");
+  const themeIds = ["smoke", "nebula", "ice"];
+  const routes = {
+    "/afon/themes/catalog.json": canonicalCatalog,
+    "/afon/themes/registry-schema.json": canonicalRegistrySchema,
+    "/afon/themes/install-contract.json": canonicalInstallContract
+  };
+
+  themeIds.forEach((themeId) => {
+    routes[`https://m-techindustries.com/afon/themes/${themeId}/install.json`] = readJson(`../afon/themes/${themeId}/install.json`);
+    routes[`https://m-techindustries.com/afon/themes/${themeId}/manifest.json`] = readJson(`../afon/themes/${themeId}/manifest.json`);
+    routes[`https://m-techindustries.com/afon/themes/${themeId}/package.sha256`] = readFileSync(new URL(`../afon/themes/${themeId}/package.sha256`, import.meta.url), "utf8");
+    routes[`https://m-techindustries.com/afon/themes/${themeId}/package.zip`] = readBytes(`../afon/themes/${themeId}/package.zip`);
+  });
+
+  const storage = new MemoryStorage();
+  const cache = new LocalThemeCache({ storage });
+  const fetcher = async (url) => {
+    assert.equal(String(url).includes("/themes/afon/registry.json"), false);
+    return response(routes[url], url in routes);
+  };
+  const registryService = new ThemeRegistryService({ fetcher, cache });
+  const installService = new ThemeInstallService({
+    fetcher,
+    cache,
+    clock: () => new Date("2026-06-22T00:00:00Z")
+  });
+  const activationService = new ThemeActivationService({ cache });
+  const displayService = new ThemeDisplayService();
+
+  await registryService.loadRegistrySchema();
+  const remoteCatalog = await registryService.loadRemoteCatalog();
+  const visibleThemes = displayService.buildVisibleThemes({
+    remoteCatalog,
+    localRegistry: cache.read(),
+    unlockedThemeIds: themeIds
+  });
+
+  const visibleThemeIds = visibleThemes.map((theme) => theme.themeId);
+  themeIds.forEach((themeId) => assert.ok(visibleThemeIds.includes(themeId)));
+
+  for (const themeId of themeIds) {
+    const themeRecord = registryService.discoverTheme(remoteCatalog, themeId);
+    const installJson = routes[`https://m-techindustries.com/afon/themes/${themeId}/install.json`];
+    const manifest = routes[`https://m-techindustries.com/afon/themes/${themeId}/manifest.json`];
+
+    assert.equal(themeRecord.themeId, installJson.themeId);
+    assert.equal(themeRecord.themeId, manifest.themeId);
+    assert.equal(themeRecord.publisherId, installJson.publisherId);
+    assert.equal(themeRecord.publisherId, manifest.publisherId);
+    assert.equal(themeRecord.version, installJson.version);
+    assert.equal(themeRecord.version, manifest.version);
+    assert.equal(installJson.installPolicy.allowInstall, true);
+    assert.equal(installJson.installPolicy.allowActivate, true);
+    assert.equal(manifest.allowsCodeExecution, false);
+    assert.equal(manifest.allowsWebViewModification, false);
+
+    const installedRegistry = await installService.installFromThemeRecord(themeRecord, { unlockedThemeIds: [themeId] });
+    assert.equal(installedRegistry.installedThemes.find((theme) => theme.themeId === themeId).installState, "installed");
+
+    const activeRegistry = activationService.activate(themeId, undefined, { unlockedThemeIds: [themeId] });
+    assert.equal(activeRegistry.installedThemes.find((theme) => theme.themeId === themeId).active, true);
+  }
+});
+
+test("entitlement display states lock and unlock the matching catalog themes only", () => {
+  const displayService = new ThemeDisplayService();
+  const remoteCatalog = {
+    schemaVersion: 1,
+    updatedAt: "2026-06-22T00:00:00Z",
+    themes: ["smoke", "nebula", "ice"].map((themeId) => ({
+      themeId,
+      publisherId: "mtech",
+      name: themeId,
+      description: themeId,
+      version: "1.0.0",
+      manifestUrl: `https://m-techindustries.com/afon/themes/${themeId}/manifest.json`
+    }))
+  };
+  const localRegistry = { schemaVersion: 1, installedThemes: [] };
+
+  const withoutEntitlement = displayService.buildVisibleThemes({ remoteCatalog, localRegistry });
+  assert.deepEqual(Object.fromEntries(withoutEntitlement.map((theme) => [theme.themeId, theme.displayState])), {
+    smoke: "locked",
+    nebula: "locked",
+    ice: "locked"
+  });
+
+  const smokeOnly = displayService.buildVisibleThemes({ remoteCatalog, localRegistry, unlockedThemeIds: ["smoke"] });
+  assert.deepEqual(Object.fromEntries(smokeOnly.map((theme) => [theme.themeId, theme.displayState])), {
+    smoke: "unlocked",
+    nebula: "locked",
+    ice: "locked"
+  });
+
+  const nebulaOnly = displayService.buildVisibleThemes({ remoteCatalog, localRegistry, unlockedThemeIds: ["nebula"] });
+  assert.deepEqual(Object.fromEntries(nebulaOnly.map((theme) => [theme.themeId, theme.displayState])), {
+    smoke: "locked",
+    nebula: "unlocked",
+    ice: "locked"
+  });
+
+  const multipleUnlocked = displayService.buildVisibleThemes({ remoteCatalog, localRegistry, unlockedThemeIds: ["smoke", "ice", "unknown"] });
+  assert.deepEqual(Object.fromEntries(multipleUnlocked.map((theme) => [theme.themeId, theme.displayState])), {
+    smoke: "unlocked",
+    nebula: "locked",
+    ice: "unlocked"
+  });
+});
+
+test("locked theme cannot install or activate without entitlement", async () => {
+  const storage = new MemoryStorage();
+  const cache = new LocalThemeCache({ storage });
+  const fetcher = createFetcher();
+  const registryService = new ThemeRegistryService({ fetcher, cache });
+  const installService = new ThemeInstallService({
+    fetcher,
+    cache,
+    clock: () => new Date("2026-06-22T00:00:00Z")
+  });
+  const activationService = new ThemeActivationService({ cache });
+
+  const remoteCatalog = await registryService.loadRemoteCatalog();
+  const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
+  const installResult = await installService.installFromThemeRecord(nebula);
+  assert.equal(installResult.registry.installedThemes.find((theme) => theme.themeId === "nebula").installState, "failed");
+
+  const activeRegistry = activationService.activate("nebula");
+  assert.equal(activeRegistry.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID).active, true);
+});
+
+test("unlocked theme can activate while unknown unlock IDs are ignored", async () => {
+  const storage = new MemoryStorage();
+  const cache = new LocalThemeCache({ storage });
+  const fetcher = createFetcher();
+  const registryService = new ThemeRegistryService({ fetcher, cache });
+  const installService = new ThemeInstallService({
+    fetcher,
+    cache,
+    clock: () => new Date("2026-06-22T00:00:00Z")
+  });
+  const activationService = new ThemeActivationService({ cache });
+
+  const remoteCatalog = await registryService.loadRemoteCatalog();
+  const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
+  await installService.installFromThemeRecord(nebula, { unlockedThemeIds: ["nebula", "unknown-theme"] });
+
+  const activeRegistry = activationService.activate("nebula", undefined, { unlockedThemeIds: ["unknown-theme"] });
+  assert.equal(activeRegistry.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID).active, true);
+
+  const entitledRegistry = activationService.activate("nebula", undefined, { unlockedThemeIds: ["nebula", "unknown-theme"] });
+  assert.equal(entitledRegistry.installedThemes.find((theme) => theme.themeId === "nebula").active, true);
+});
+
+test("invalid package hash blocks install and falls back to Classic", async () => {
+  const storage = new MemoryStorage();
+  const cache = new LocalThemeCache({ storage });
+  const fetcher = createFetcher({
+    "https://m-techindustries.com/afon/themes/nebula/package.zip": Buffer.from("tampered-package")
+  });
+  const registryService = new ThemeRegistryService({ fetcher, cache });
+  const installService = new ThemeInstallService({
+    fetcher,
+    cache,
+    clock: () => new Date("2026-06-22T00:00:00Z")
+  });
+
+  const remoteCatalog = await registryService.loadRemoteCatalog();
+  const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
+  const result = await installService.installFromThemeRecord(nebula, { unlockedThemeIds: ["nebula"] });
+
+  assert.equal(result.registry.installedThemes.find((theme) => theme.themeId === "nebula").installState, "failed");
+  assert.equal(result.registry.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID).active, true);
+  assert.equal(result.error.code, "package_hash_mismatch");
+});
+
+test("removed entitlement deactivates theme and restores Classic", async () => {
+  const storage = new MemoryStorage();
+  const cache = new LocalThemeCache({ storage });
+  const fetcher = createFetcher();
+  const registryService = new ThemeRegistryService({ fetcher, cache });
+  const installService = new ThemeInstallService({
+    fetcher,
+    cache,
+    clock: () => new Date("2026-06-22T00:00:00Z")
+  });
+  const activationService = new ThemeActivationService({ cache });
+
+  const remoteCatalog = await registryService.loadRemoteCatalog();
+  const nebula = registryService.discoverTheme(remoteCatalog, "nebula");
+  await installService.installFromThemeRecord(nebula, { unlockedThemeIds: ["nebula"] });
+  activationService.activate("nebula", undefined, { unlockedThemeIds: ["nebula"] });
+
+  const reconciled = activationService.reconcileEntitlements([]);
+  assert.equal(reconciled.installedThemes.find((theme) => theme.themeId === ThemeDefaults.DEFAULT_THEME_ID).active, true);
+  assert.equal(reconciled.installedThemes.find((theme) => theme.themeId === "nebula").active, false);
 });

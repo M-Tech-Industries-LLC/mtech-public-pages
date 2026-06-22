@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "themeId": "smoke",
+  "publisherId": "mtech",
+  "name": "Smoke",
+  "description": "A smoky neutral visual theme for Afon token testing.",
+  "version": "1.0.0",
+  "minAfonVersion": "0.1.0",
+  "packageType": "theme",
+  "themeMode": "custom",
+  "behaviorScope": "cosmetic_only",
+  "allowsCodeExecution": false,
+  "allowsWebViewModification": false,
+  "tokens": {
+    "accent": "#A7B0BA",
+    "toolbarBackground": "#15191F",
+    "pageBackground": "#080A0D",
+    "cardBackground": "#20262D",
+    "textPrimary": "#F6F7F9",
+    "textSecondary": "#C4CBD3",
+    "searchFieldText": "#111827",
+    "searchFieldBackground": "#F2F4F5"
+  },
+  "assets": {
+    "preview": "preview.webp",
+    "background": "background.webp"
+  }
+}

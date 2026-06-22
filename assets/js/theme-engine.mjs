@@ -116,6 +116,31 @@ function sortedDisplayState(states) {
   return DISPLAY_STATE_PRIORITY.find((state) => states.includes(state)) || "unavailable";
 }
 
+function isUnlocked(theme, unlockedThemeIds = []) {
+  const unlockedKeys = new Set(unlockedThemeIds);
+  return unlockedKeys.has(identityKey(theme)) || unlockedKeys.has(theme?.themeId);
+}
+
+function requiresEntitlement(themeRecord, installJson) {
+  return themeRecord?.requiresEntitlement !== false && installJson?.validation?.requiresEntitlement !== false;
+}
+
+function normalizeSha256(value) {
+  return typeof value === "string" ? value.trim().split(/\s+/)[0].toLowerCase() : "";
+}
+
+function packageSha256Url(packageUrl) {
+  return typeof packageUrl === "string" ? packageUrl.replace(/package\.zip$/, "package.sha256") : "";
+}
+
+async function sha256Hex(buffer) {
+  if (!globalThis.crypto?.subtle) {
+    throw new ThemeValidationError("SHA-256 validation is unavailable.", "sha256_unavailable");
+  }
+  const digest = await globalThis.crypto.subtle.digest("SHA-256", buffer);
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
 function createDefaultRegistry() {
   return {
     schemaVersion: 1,
@@ -350,8 +375,8 @@ export class ThemeDisplayService {
 
     if (local?.active === true || local?.installState === "active") states.push("active");
     if (["installed", "active"].includes(local?.installState)) states.push("installed");
-    if (unlockedKeys.has(key) || unlockedKeys.has((remote || local)?.themeId)) states.push("unlocked");
-    if (!isIncompatible && remote && !unlockedKeys.has(key) && !unlockedKeys.has(remote.themeId) && remote.requiresEntitlement !== false) states.push("locked");
+    if (isUnlocked(remote || local, unlockedKeys)) states.push("unlocked");
+    if (!isIncompatible && remote && !isUnlocked(remote, unlockedKeys) && remote.requiresEntitlement !== false) states.push("locked");
     if (!isIncompatible && (remote?.status === "active" || remote?.status === "available" || remote?.status === "staged")) states.push("available");
     if (isIncompatible) states.push("incompatible");
     states.push("unavailable");
@@ -397,19 +422,37 @@ export class ThemeInstallService {
     return response.json();
   }
 
+  async fetchText(url) {
+    if (!this.fetcher) throw new ThemeValidationError("Fetch is unavailable.", "fetch_unavailable");
+    const response = await this.fetcher(url);
+    if (!response || !response.ok || typeof response.text !== "function") throw new ThemeValidationError(`Unable to load ${url}.`, "fetch_failed");
+    return response.text();
+  }
+
+  async fetchArrayBuffer(url) {
+    if (!this.fetcher) throw new ThemeValidationError("Fetch is unavailable.", "fetch_unavailable");
+    const response = await this.fetcher(url);
+    if (!response || !response.ok || typeof response.arrayBuffer !== "function") throw new ThemeValidationError(`Unable to load ${url}.`, "fetch_failed");
+    return response.arrayBuffer();
+  }
+
   async loadInstallContract() {
     const contract = await this.fetchJson(this.installContractUrl);
     this.validateInstallContract(contract);
     return contract;
   }
 
-  async installFromThemeRecord(themeRecord) {
+  async installFromThemeRecord(themeRecord, { unlockedThemeIds = [] } = {}) {
     try {
       const contract = await this.loadInstallContract();
       const installJson = await this.fetchJson(themeRecord.installUrl || themeRecord.manifestUrl.replace(/manifest\.json$/, "install.json"));
       const manifest = await this.fetchJson(themeRecord.manifestUrl);
 
       this.validateInstallPackage({ contract, themeRecord, installJson, manifest });
+      if (requiresEntitlement(themeRecord, installJson) && !isUnlocked(themeRecord, unlockedThemeIds)) {
+        throw new ThemeValidationError("Theme entitlement is required.", "theme_entitlement_required");
+      }
+      await this.validatePackageHash({ themeRecord, installJson });
 
       const registry = this.cache.read();
       const timestamp = nowIso(this.clock);
@@ -499,6 +542,26 @@ export class ThemeInstallService {
     return true;
   }
 
+  async validatePackageHash({ themeRecord, installJson }) {
+    if (installJson.validation?.requiresHash !== true) return true;
+
+    const expected = normalizeSha256(themeRecord.sha256 || installJson.packageHash);
+    const installHash = normalizeSha256(installJson.packageHash);
+    if (!expected) throw new ThemeValidationError("Theme package hash is missing.", "missing_package_hash");
+    if (installHash && installHash !== expected) throw new ThemeValidationError("Install package hash does not match catalog.", "package_hash_mismatch");
+
+    const hashUrl = packageSha256Url(themeRecord.packageUrl);
+    const publishedHash = normalizeSha256(await this.fetchText(hashUrl));
+    if (publishedHash && publishedHash !== expected) {
+      throw new ThemeValidationError("Published package hash does not match catalog.", "package_hash_mismatch");
+    }
+
+    const packageBuffer = await this.fetchArrayBuffer(themeRecord.packageUrl);
+    const actual = await sha256Hex(packageBuffer);
+    if (actual !== expected) throw new ThemeValidationError("Package SHA-256 does not match catalog.", "package_hash_mismatch");
+    return true;
+  }
+
   validateThemeTokens(tokens) {
     return isObject(tokens) && TOKEN_FIELDS.every((field) => isHexColor(tokens[field]));
   }
@@ -539,10 +602,10 @@ export class ThemeActivationService {
     this.cache = cache;
   }
 
-  activate(themeId, publisherId) {
+  activate(themeId, publisherId, { unlockedThemeIds = [] } = {}) {
     const registry = this.cache.read();
     const target = registry.installedThemes.find((theme) => theme.themeId === themeId && (!publisherId || theme.publisherId === publisherId));
-    if (!target || !["installed", "active"].includes(target.installState)) {
+    if (!target || !["installed", "active"].includes(target.installState) || !isUnlocked(target, unlockedThemeIds)) {
       return this.revertToDefault();
     }
 
@@ -586,6 +649,15 @@ export class ThemeActivationService {
       }))
     };
     return this.cache.write(nextRegistry);
+  }
+
+  reconcileEntitlements(unlockedThemeIds = []) {
+    const registry = this.cache.read();
+    const activeTheme = registry.installedThemes.find((theme) => theme.active);
+    if (!activeTheme || activeTheme.themeId === DEFAULT_THEME_ID || isUnlocked(activeTheme, unlockedThemeIds)) {
+      return registry;
+    }
+    return this.revertToDefault();
   }
 }
 
