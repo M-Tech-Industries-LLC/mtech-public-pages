@@ -18,14 +18,14 @@
     "accentSecondary": "#B7E7FF",
     "buttonBackground": "#2EA8F2",
     "buttonText": "#FFFFFF",
-    "toolbarBackground": "#DDF6FF",
-    "surfaceBackground": "#F7FCFF",
+    "toolbarBackground": "#2B4A60",
+    "surfaceBackground": "#263F54",
     "pageBackground": "#EEF8FC",
-    "cardBackground": "#F7FCFF",
-    "textPrimary": "#0F172A",
-    "textSecondary": "#475569",
-    "iconColor": "#0F172A",
-    "dividerColor": "#B7E7FF",
+    "cardBackground": "#2F4F68",
+    "textPrimary": "#F8FAFC",
+    "textSecondary": "#D7E7F2",
+    "iconColor": "#F8FAFC",
+    "dividerColor": "#A7D8EF",
     "searchFieldBackground": "#FFFFFF",
     "searchFieldText": "#111827",
     "backgroundImage": "background.png",
@@ -35,7 +35,7 @@
     "toolbarFrosted": "true",
     "toolbarOpacity": "0.82",
     "toolbarBlur": "14",
-    "surfaceOpacity": "0.92",
+    "surfaceOpacity": "0.96",
     "logoGlow": "false"
   },
   "assets": {
@@ -62,6 +62,6 @@
     "tabStyle": "layered_frost",
     "surfaceTint": "#B7E7FF",
     "accentColor": "#4DB8FF",
-    "backgroundScrimOpacity": "0.08"
+    "backgroundScrimOpacity": "0.42"
   }
 }
