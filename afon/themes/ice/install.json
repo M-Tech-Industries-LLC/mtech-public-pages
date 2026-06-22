@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "themeId": "ice",
+  "publisherId": "mtech",
+  "version": "1.0.0",
+  "installPolicy": {
+    "allowInstall": true,
+    "allowActivate": true,
+    "allowRollback": true,
+    "allowRemove": true
+  },
+  "validation": {
+    "requiresHash": true,
+    "requiresSignature": false,
+    "requiresCompatibilityCheck": true,
+    "requiresEntitlement": true
+  },
+  "fallback": {
+    "themeId": "classic",
+    "reason": "Classic is always available as the safe default theme."
+  }
+}

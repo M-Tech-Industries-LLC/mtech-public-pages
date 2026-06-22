@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-15T00:00:00Z",
+  "updatedAt": "2026-06-22T00:00:00Z",
   "themes": [
     {
       "themeId": "nebula",
@@ -16,6 +16,26 @@
       "signature": "",
       "status": "staged",
       "tags": ["space", "dark", "premium"]
+    },
+    {
+      "themeId": "ice",
+      "publisherId": "mtech",
+      "name": "Ice",
+      "description": "A clean frozen-inspired theme featuring frosted glass surfaces, icy blue accents, and crystal-inspired UI treatments.",
+      "version": "1.0.0",
+      "minAfonVersion": "0.1.0",
+      "packageUrl": "https://m-techindustries.com/afon/themes/ice/package.zip",
+      "manifestUrl": "https://m-techindustries.com/afon/themes/ice/manifest.json",
+      "previewUrl": "https://m-techindustries.com/afon/themes/ice/preview.png",
+      "sha256": "44dec9cbe392ed53a5a38c1cf47e7234a3898966336daabfa458d27d42634601",
+      "signature": "",
+      "status": "experimental",
+      "tags": [
+        "ice",
+        "frosted",
+        "glass",
+        "experimental"
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:00:00Z",
+  "updatedAt": "2026-06-22T00:00:00Z",
   "themes": [
     {
       "themeId": "nebula",
@@ -23,6 +23,17 @@
       "packageUrl": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/smoke/package.zip",
       "sha256Url": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/smoke/package.sha256",
       "status": "active"
+    },
+    {
+      "themeId": "ice",
+      "publisherId": "mtech",
+      "name": "Ice",
+      "description": "A clean frozen-inspired theme featuring frosted glass surfaces, icy blue accents, and crystal-inspired UI treatments.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/ice/package.zip",
+      "sha256Url": "https://m-tech-industries-llc.github.io/mtech-public-pages/themes/afon/ice/package.sha256",
+      "status": "experimental"
     }
   ]
 }
