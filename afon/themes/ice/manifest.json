@@ -32,7 +32,6 @@
     "backgroundFit": "cover",
     "backgroundAlignment": "center",
     "backgroundScrimColor": "#0F172A",
-    "backgroundScrimOpacity": "0.08",
     "toolbarFrosted": "true",
     "toolbarOpacity": "0.82",
     "toolbarBlur": "14",
@@ -62,6 +61,7 @@
     "dialogStyle": "panel",
     "tabStyle": "layered_frost",
     "surfaceTint": "#B7E7FF",
-    "accentColor": "#4DB8FF"
+    "accentColor": "#4DB8FF",
+    "backgroundScrimOpacity": "0.08"
   }
 }
