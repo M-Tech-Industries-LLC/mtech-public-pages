@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "productId": "ironveil",
+  "tenantId": "mtech-test",
+  "deviceLimit": 10,
+  "checkedAt": "2026-07-02T00:00:00Z",
+  "features": [
+    "enterprise",
+    "managedConfig",
+    "theme.enterprise"
+  ],
+  "entitlements": [
+    {
+      "entitlementId": "theme.enterprise.default",
+      "type": "theme",
+      "status": "active",
+      "expiresAt": "2026-12-31T23:59:59Z"
+    }
+  ],
+  "licenseStatus": "pending",
+  "bindingStatus": "pending",
+  "deviceSlotStatus": "pending",
+  "deviceCountUsed": 0,
+  "expiresAt": "2026-12-31T23:59:59Z"
+}

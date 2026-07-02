@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "productId": "ironveil",
+  "tenantId": "other-tenant",
+  "deviceLimit": 10,
+  "checkedAt": "2026-07-02T00:00:00Z",
+  "features": [
+    "enterprise",
+    "managedConfig",
+    "theme.enterprise"
+  ],
+  "entitlements": [
+    {
+      "entitlementId": "theme.enterprise.default",
+      "type": "theme",
+      "status": "active",
+      "expiresAt": "2026-12-31T23:59:59Z"
+    }
+  ],
+  "licenseStatus": "active",
+  "bindingStatus": "active",
+  "deviceCountUsed": 1,
+  "expiresAt": "2026-12-31T23:59:59Z"
+}

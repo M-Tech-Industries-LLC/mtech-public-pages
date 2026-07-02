@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "productId": "ironveil",
+  "tenantId": "mtech-test",
+  "deviceLimit": 10,
+  "checkedAt": "2026-07-02T00:00:00Z",
+  "features": [
+    "enterprise",
+    "managedConfig",
+    "theme.enterprise"
+  ],
+  "entitlements": [],
+  "licenseStatus": "revoked",
+  "bindingStatus": "revoked",
+  "deviceCountUsed": 1,
+  "expiresAt": "2026-12-31T23:59:59Z"
+}
