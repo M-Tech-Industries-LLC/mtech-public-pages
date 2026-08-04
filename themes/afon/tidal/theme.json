@@ -34,17 +34,17 @@
     "toolbarBlur": "16",
     "surfaceOpacity": "0.92",
     "logoGlow": "false",
-    "backgroundImage": "background.png",
+    "backgroundImage": "background.jpg",
     "backgroundFit": "cover",
     "backgroundAlignment": "center",
     "toolbarFrosted": "true"
   },
   "assets": {
     "preview": "preview.png",
-    "background": "background.png"
+    "background": "background.jpg"
   },
   "visuals": {
-    "backgroundImage": "background.png",
+    "backgroundImage": "background.jpg",
     "toolbarStyle": "frosted",
     "surfaceTint": "#A4EEF0",
     "accentColor": "#34C6D3",
