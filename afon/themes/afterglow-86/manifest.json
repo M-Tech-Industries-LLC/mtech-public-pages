@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "themeId": "afterglow-86",
+  "publisherId": "mtech",
+  "name": "Afterglow '86",
+  "description": "An original neon arcade-future theme with ultraviolet depth, cyan light, magenta energy, and restrained CRT texture.",
+  "author": "M-Tech Industries",
+  "version": "1.0.0",
+  "minAfonVersion": "0.1.0",
+  "packageType": "theme",
+  "themeMode": "custom",
+  "behaviorScope": "cosmetic_only",
+  "allowsCodeExecution": false,
+  "allowsWebViewModification": false,
+  "tokens": {
+    "accent": "#19E6FF",
+    "accentPrimary": "#19E6FF",
+    "accentSecondary": "#FF2DAA",
+    "buttonBackground": "#B71978",
+    "buttonText": "#FFFFFF",
+    "toolbarBackground": "#0C0924",
+    "surfaceBackground": "#171139",
+    "pageBackground": "#07051A",
+    "cardBackground": "#20144A",
+    "textPrimary": "#F3F4FF",
+    "textSecondary": "#C8C5F4",
+    "iconColor": "#EAFBFF",
+    "dividerColor": "#6134A8",
+    "searchFieldBackground": "#F5F1FF",
+    "searchFieldText": "#171133",
+    "backgroundScrimColor": "#07051A",
+    "backgroundScrimOpacity": "0.12",
+    "toolbarOpacity": "0.82",
+    "toolbarBlur": "16",
+    "surfaceOpacity": "0.92",
+    "logoGlow": "true",
+    "backgroundImage": "background.png",
+    "backgroundFit": "cover",
+    "backgroundAlignment": "center",
+    "toolbarFrosted": "true"
+  },
+  "assets": {
+    "preview": "preview.png",
+    "background": "background.png"
+  },
+  "visuals": {
+    "backgroundImage": "background.png",
+    "toolbarStyle": "frosted",
+    "surfaceTint": "#FF2DAA",
+    "accentColor": "#19E6FF",
+    "backgroundScrimOpacity": "0.12"
+  }
+}

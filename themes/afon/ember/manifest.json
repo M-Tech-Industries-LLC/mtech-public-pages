@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "themeId": "ember",
+  "publisherId": "mtech",
+  "name": "Ember",
+  "description": "An elegant elemental fire theme shaped by charcoal, molten orange, warm gold, and slow ribbons of flame.",
+  "author": "M-Tech Industries",
+  "version": "1.0.0",
+  "minAfonVersion": "0.1.0",
+  "packageType": "theme",
+  "themeMode": "custom",
+  "behaviorScope": "cosmetic_only",
+  "allowsCodeExecution": false,
+  "allowsWebViewModification": false,
+  "tokens": {
+    "accent": "#FF8A24",
+    "accentPrimary": "#FF8A24",
+    "accentSecondary": "#FFC45C",
+    "buttonBackground": "#C43F14",
+    "buttonText": "#FFFFFF",
+    "toolbarBackground": "#1A0E0B",
+    "surfaceBackground": "#2B1611",
+    "pageBackground": "#100B0A",
+    "cardBackground": "#361B13",
+    "textPrimary": "#FFF2E5",
+    "textSecondary": "#E8C7AD",
+    "iconColor": "#FFF2E5",
+    "dividerColor": "#8B351B",
+    "searchFieldBackground": "#FFF0DF",
+    "searchFieldText": "#2B1009",
+    "backgroundScrimColor": "#100807",
+    "backgroundScrimOpacity": "0.18",
+    "toolbarOpacity": "0.83",
+    "toolbarBlur": "14",
+    "surfaceOpacity": "0.93",
+    "logoGlow": "true",
+    "backgroundImage": "background.png",
+    "backgroundFit": "cover",
+    "backgroundAlignment": "center",
+    "toolbarFrosted": "true"
+  },
+  "assets": {
+    "preview": "preview.png",
+    "background": "background.png"
+  },
+  "visuals": {
+    "backgroundImage": "background.png",
+    "toolbarStyle": "frosted",
+    "surfaceTint": "#FFC45C",
+    "accentColor": "#FF8A24",
+    "backgroundScrimOpacity": "0.18"
+  }
+}
