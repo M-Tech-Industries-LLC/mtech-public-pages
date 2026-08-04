@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "themeId": "terrene",
+  "publisherId": "mtech",
+  "name": "Terrene",
+  "version": "1.0.0",
+  "mode": "custom",
+  "colors": {
+    "accent": "#D7A34D",
+    "toolbarBackground": "#17251B",
+    "surface": "#24382A",
+    "background": "#111A14",
+    "textPrimary": "#F5EBD6"
+  },
+  "tokens": {
+    "accent": "#D7A34D",
+    "accentPrimary": "#D7A34D",
+    "accentSecondary": "#7EA05E",
+    "buttonBackground": "#8A5428",
+    "buttonText": "#FFFFFF",
+    "toolbarBackground": "#17251B",
+    "surfaceBackground": "#24382A",
+    "pageBackground": "#111A14",
+    "cardBackground": "#2D4231",
+    "textPrimary": "#F5EBD6",
+    "textSecondary": "#C8C5A9",
+    "iconColor": "#F5EBD6",
+    "dividerColor": "#667654",
+    "searchFieldBackground": "#F6E9D2",
+    "searchFieldText": "#1D2A20",
+    "backgroundScrimColor": "#111A14",
+    "backgroundScrimOpacity": "0.17",
+    "toolbarOpacity": "0.84",
+    "toolbarBlur": "14",
+    "surfaceOpacity": "0.93",
+    "logoGlow": "false",
+    "backgroundImage": "background.png",
+    "backgroundFit": "cover",
+    "backgroundAlignment": "center",
+    "toolbarFrosted": "true"
+  },
+  "assets": {
+    "preview": "preview.png",
+    "background": "background.png"
+  },
+  "visuals": {
+    "backgroundImage": "background.png",
+    "toolbarStyle": "frosted",
+    "surfaceTint": "#7EA05E",
+    "accentColor": "#D7A34D",
+    "backgroundScrimOpacity": "0.17"
+  }
+}

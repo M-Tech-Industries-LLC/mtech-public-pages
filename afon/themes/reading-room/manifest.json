@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "themeId": "reading-room",
+  "publisherId": "mtech",
+  "name": "The Reading Room",
+  "description": "A bookish coffeehouse theme with espresso shadows, walnut warmth, parchment surfaces, and aged brass accents.",
+  "author": "M-Tech Industries",
+  "version": "1.0.0",
+  "minAfonVersion": "0.1.0",
+  "packageType": "theme",
+  "themeMode": "custom",
+  "behaviorScope": "cosmetic_only",
+  "allowsCodeExecution": false,
+  "allowsWebViewModification": false,
+  "tokens": {
+    "accent": "#C89455",
+    "accentPrimary": "#C89455",
+    "accentSecondary": "#E5C18B",
+    "buttonBackground": "#A9652C",
+    "buttonText": "#FFFFFF",
+    "toolbarBackground": "#21140F",
+    "surfaceBackground": "#332018",
+    "pageBackground": "#130C09",
+    "cardBackground": "#3B261C",
+    "textPrimary": "#F6E9D2",
+    "textSecondary": "#D8C3A4",
+    "iconColor": "#F6E9D2",
+    "dividerColor": "#805D40",
+    "searchFieldBackground": "#F4E3C6",
+    "searchFieldText": "#2A160F",
+    "backgroundScrimColor": "#120A06",
+    "backgroundScrimOpacity": "0.18",
+    "toolbarOpacity": "0.84",
+    "toolbarBlur": "14",
+    "surfaceOpacity": "0.94",
+    "logoGlow": "false",
+    "backgroundImage": "background.png",
+    "backgroundFit": "cover",
+    "backgroundAlignment": "center",
+    "toolbarFrosted": "true"
+  },
+  "assets": {
+    "preview": "preview.png",
+    "background": "background.png"
+  },
+  "visuals": {
+    "backgroundImage": "background.png",
+    "toolbarStyle": "frosted",
+    "surfaceTint": "#E5C18B",
+    "accentColor": "#C89455",
+    "backgroundScrimOpacity": "0.18"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "themeId": "tidal",
+  "publisherId": "mtech",
+  "name": "Tidal",
+  "description": "A tranquil elemental water theme with abyssal blue, sea-glass highlights, flowing currents, and luminous depth.",
+  "author": "M-Tech Industries",
+  "version": "1.0.0",
+  "minAfonVersion": "0.1.0",
+  "packageType": "theme",
+  "themeMode": "custom",
+  "behaviorScope": "cosmetic_only",
+  "allowsCodeExecution": false,
+  "allowsWebViewModification": false,
+  "tokens": {
+    "accent": "#34C6D3",
+    "accentPrimary": "#34C6D3",
+    "accentSecondary": "#A4EEF0",
+    "buttonBackground": "#087684",
+    "buttonText": "#FFFFFF",
+    "toolbarBackground": "#052A36",
+    "surfaceBackground": "#083F4C",
+    "pageBackground": "#031923",
+    "cardBackground": "#0A4B59",
+    "textPrimary": "#E7FCFA",
+    "textSecondary": "#B8E4E4",
+    "iconColor": "#E7FCFA",
+    "dividerColor": "#267A83",
+    "searchFieldBackground": "#F0FEFD",
+    "searchFieldText": "#07313B",
+    "backgroundScrimColor": "#031923",
+    "backgroundScrimOpacity": "0.16",
+    "toolbarOpacity": "0.82",
+    "toolbarBlur": "16",
+    "surfaceOpacity": "0.92",
+    "logoGlow": "false",
+    "backgroundImage": "background.png",
+    "backgroundFit": "cover",
+    "backgroundAlignment": "center",
+    "toolbarFrosted": "true"
+  },
+  "assets": {
+    "preview": "preview.png",
+    "background": "background.png"
+  },
+  "visuals": {
+    "backgroundImage": "background.png",
+    "toolbarStyle": "frosted",
+    "surfaceTint": "#A4EEF0",
+    "accentColor": "#34C6D3",
+    "backgroundScrimOpacity": "0.16"
+  }
+}
