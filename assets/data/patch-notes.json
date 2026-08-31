@@ -5,19 +5,13 @@
       "category": "Browser",
       "description": "Afon is a browser from M-Tech Industries focused on dependable, privacy-conscious browsing for personal and managed environments.",
       "testing": {
-        "currentVersion": "0.1.1+13",
-        "currentAndroidBuild": "13",
+        "currentAndroidVersion": "0.1.3+23",
+        "currentIosVersion": "0.1.1+13",
+        "currentAndroidBuild": "23",
         "currentIosBuild": "13",
-        "links": [
-          {
-            "label": "Android Testing Link",
-            "url": ""
-          },
-          {
-            "label": "iOS TestFlight Link",
-            "url": ""
-          }
-        ],
+        "androidTestingStatus": "Open Testing",
+        "iosTestingStatus": "Latest recorded testing build",
+        "links": [],
         "feedback": "Report issues to support@m-techindustries.com with the version, platform, device, and a short description of what happened.",
         "diagnosticExclusions": [
           "page content",
@@ -29,10 +23,166 @@
       },
       "releases": [
         {
+          "version": "0.1.3+23",
+          "buildNumber": "23",
+          "releaseDate": "August 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Current Android Open Testing release",
+          "summary": "Separated browser protection controls and improved reliability when applying protection and navigation decisions.",
+          "whatsNew": [
+            "Separated Tracker and Ad Protection from Link Protection",
+            "Separated URL Safety and certificate-warning behavior from the other protection controls",
+            "Added clearer independent settings for tracker and link protection"
+          ],
+          "fixes": [
+            "Improved navigation reliability when protection settings change",
+            "Reduced unintended interaction between tracker exceptions and link handling",
+            "Improved consistency when applying protection decisions during navigation",
+            "Improved stale navigation cleanup and Back and Forward state handling",
+            "General performance and reliability fixes"
+          ]
+        },
+        {
+          "version": "0.1.2+22",
+          "buildNumber": "22",
+          "releaseDate": "July 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Previous testing release",
+          "summary": "Added Share Afon and new themes while improving navigation, History, warning explanations, and browsing recovery.",
+          "whatsNew": [
+            "Added Share Afon links through the Android share sheet",
+            "Added Reading Room, Afterglow 86, Ember, Tidal, Zephyr, and Terrene themes",
+            "Added previews for installed themes",
+            "Improved one-time Allow Once navigation for eligible Strict-mode links"
+          ],
+          "fixes": [
+            "Improved browsing, search, reload, tab, and navigation reliability",
+            "Improved handling of links delivered to Afon from other applications",
+            "Improved Back, Home, and safe-page recovery",
+            "Improved active-tab History isolation and reduced unnecessary tab reloads",
+            "Clarified warning reasons and available recovery actions",
+            "Clarified the difference between retrying normally and proceeding through an eligible certificate warning",
+            "Displayed recognizable Google, DuckDuckGo, and Bing searches more clearly in normal History",
+            "Combined equivalent normal searches into one visible History entry",
+            "Retired the legacy Annoyance Intelligence behavior to reduce unwanted interference with ordinary browsing",
+            "Improved theme compatibility, previews, and text contrast"
+          ]
+        },
+        {
+          "version": "0.1.1+20",
+          "buildNumber": "20",
+          "releaseDate": "July 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Previous testing release",
+          "summary": "Improved browser stability, navigation recovery, and handling of recurring page interruptions.",
+          "whatsNew": [
+            "Refined Annoyance Intelligence to respond more cautiously to recurring page interruptions"
+          ],
+          "fixes": [
+            "Improved overall browser stability and performance",
+            "Improved navigation and session recovery after interrupted or failed page loads",
+            "Improved Back and Home recovery from blocked pages",
+            "Improved external-link and application handling",
+            "Prevented recovery from repeatedly returning to the same blocked external link",
+            "Improved handling of restored tabs and browsing sessions",
+            "Improved theme compatibility across app versions",
+            "General bug fixes and reliability improvements"
+          ]
+        },
+        {
+          "version": "0.1.1+17",
+          "buildNumber": "17",
+          "releaseDate": "July 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Previous testing release",
+          "summary": "Improved Android Back and Forward behavior across page loads, tabs, overlays, and recovery screens.",
+          "whatsNew": [
+            "Added active-tab navigation safeguards for Back and Forward",
+            "Added improved recovery context for Strict navigation",
+            "Added more detailed privacy-safe navigation diagnostics"
+          ],
+          "fixes": [
+            "Fixed an Android Back race while a page navigation was pending",
+            "Kept Back and Forward History isolated to each tab",
+            "Prevented navigation History from carrying across tabs",
+            "Improved Back behavior for searches, redirects, and modern single-page websites",
+            "Improved dismissal of menus, sheets, and page overlays before navigating away",
+            "Reduced false overlay detection caused by normal page content",
+            "Improved blocked-page, failed-page, and safe-page recovery",
+            "Improved navigation after restoring previously open tabs"
+          ]
+        },
+        {
+          "version": "0.1.1+16",
+          "buildNumber": "16",
+          "releaseDate": "June 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Previous testing release",
+          "summary": "Strengthened navigation protection and added better recovery from unwanted redirects, popups, and stuck pages.",
+          "whatsNew": [
+            "Added safer handling for links opened in Afon from other applications",
+            "Added emergency recovery for pages that appear stuck or unresponsive",
+            "Added Back to Safe Page recovery when normal browser History is unavailable",
+            "Added a long-press Refresh escape for difficult page states"
+          ],
+          "fixes": [
+            "Strengthened protection against unwanted redirects and tab takeovers",
+            "Improved popup and new-window containment",
+            "Improved Android Back behavior while pages are loading",
+            "Improved blocked-page and page-failure recovery",
+            "Fixed History and last-safe-page retention after Save History was disabled",
+            "Improved Private Session cleanup",
+            "Improved privacy-safe diagnostics using host-level information"
+          ]
+        },
+        {
+          "version": "0.1.1+15",
+          "buildNumber": "15",
+          "releaseDate": "June 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Previous testing release",
+          "summary": "Added working theme redemption and improved external-application handling.",
+          "whatsNew": [
+            "Added theme-code redemption for the Smoke and Nebula themes",
+            "Added permission prompts before supported links open another application"
+          ],
+          "fixes": [
+            "Improved remote theme validation and installation",
+            "Improved theme activation persistence",
+            "Improved Theme Manager reliability",
+            "Kept the current theme unchanged when theme validation or installation could not complete",
+            "Improved handling when the theme service was unavailable"
+          ]
+        },
+        {
+          "version": "0.1.1+14",
+          "buildNumber": "14",
+          "releaseDate": "June 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Previous testing release",
+          "summary": "Introduced Afon's Theme Manager and the first tester-visible custom theme experience.",
+          "whatsNew": [
+            "Added Theme Manager to Appearance settings",
+            "Added Classic and Nebula theme selection",
+            "Added theme preview cards",
+            "Added theme colors and visual styling throughout the browser",
+            "Added support for installing compatible theme packages"
+          ],
+          "fixes": [
+            "Improved the Appearance settings layout",
+            "Improved the Tracker and Ad Protection settings layout",
+            "Preserved Classic Light and Classic Dark appearance when switching themes",
+            "Improved theme package validation and fallback behavior",
+            "Improved Nebula readability and menu styling",
+            "Improved Enhanced protection behavior and blocked-content cleanup"
+          ]
+        },
+        {
           "version": "0.1.1+13",
           "buildNumber": "13",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous Android release; latest recorded iOS testing build",
           "summary": "Improved privacy controls, site exception handling, diagnostics, and Android compatibility.",
           "whatsNew": [
             "Fixed Enhanced Privacy selection on Android",
@@ -57,6 +207,7 @@
           "buildNumber": "12",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "summary": "Privacy improvements, diagnostics reporting, and stability enhancements.",
           "whatsNew": [
             "Improved Private Session behavior and persistence",
@@ -76,6 +227,7 @@
           "buildNumber": "11",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "summary": "Stability and privacy improvements.",
           "whatsNew": [
             "Improved Private Session persistence",
@@ -90,6 +242,7 @@
           "buildNumber": "10",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "summary": "Migration from Aevon Browser to Afon Browser.",
           "whatsNew": [
             "Branding migration completed",
@@ -107,6 +260,7 @@
           "buildNumber": "8",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "summary": "Initial Afon beta release.",
           "whatsNew": [
             "Website navigation improvements",
@@ -123,6 +277,7 @@
           "buildNumber": "7",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "whatsNew": [
             "Expanded Android and iOS testing",
             "Enterprise policy validation",
@@ -135,6 +290,7 @@
           "buildNumber": "6",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "whatsNew": [
             "Improved tab readability",
             "Android voice search support",
@@ -152,6 +308,7 @@
           "buildNumber": "5",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "whatsNew": [
             "Browser stability improvements",
             "Navigation refinements",
@@ -165,6 +322,7 @@
           "buildNumber": "4",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
+          "testingStatus": "Previous testing release",
           "whatsNew": [
             "Initial broader testing milestone",
             "Cross-platform stabilization",
