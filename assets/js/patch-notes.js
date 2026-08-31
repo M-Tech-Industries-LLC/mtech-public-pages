@@ -42,6 +42,9 @@
     details.appendChild(detail("Build Number", release.buildNumber));
     details.appendChild(detail("Release Date", release.releaseDate));
     details.appendChild(detail("Platforms", (release.platforms || []).join(", ")));
+    if (release.testingStatus) {
+      details.appendChild(detail("Testing Status", release.testingStatus));
+    }
     article.appendChild(details);
 
     if (release.summary) {
@@ -94,29 +97,32 @@
 
     const overview = make("section", "grid two testing-grid");
     const current = make("article", "info-panel");
-    current.appendChild(make("h2", "", "Current Version"));
+    current.appendChild(make("h2", "", "Testing Versions"));
     const currentDetails = make("div", "release-details stacked");
-    currentDetails.appendChild(detail("Current Version", testing.currentVersion));
+    currentDetails.appendChild(detail("Android Version", testing.currentAndroidVersion));
     currentDetails.appendChild(detail("Current Android Build", testing.currentAndroidBuild));
-    currentDetails.appendChild(detail("Current iOS Build", testing.currentIosBuild));
+    currentDetails.appendChild(detail("Android Testing Status", testing.androidTestingStatus));
+    currentDetails.appendChild(detail("iOS Version", testing.currentIosVersion));
+    currentDetails.appendChild(detail("iOS Build", testing.currentIosBuild));
+    currentDetails.appendChild(detail("iOS Testing Status", testing.iosTestingStatus));
     current.appendChild(currentDetails);
 
-    const join = make("article", "info-panel");
-    join.appendChild(make("h2", "", "Join Testing"));
-    const actions = make("div", "action-row");
-    (testing.links || []).forEach((link) => {
-      if (link.url) {
+    overview.appendChild(current);
+    const testingLinks = (testing.links || []).filter(
+      (link) => typeof link?.url === "string" && link.url.trim()
+    );
+    if (testingLinks.length) {
+      const join = make("article", "info-panel");
+      join.appendChild(make("h2", "", "Join Testing"));
+      const actions = make("div", "action-row");
+      testingLinks.forEach((link) => {
         const anchor = make("a", "button primary", link.label);
         anchor.href = link.url;
         actions.appendChild(anchor);
-      } else {
-        actions.appendChild(make("span", "button disabled", `${link.label}: Coming soon`));
-      }
-    });
-    if (!actions.children.length) actions.appendChild(make("span", "button disabled", "Testing links coming soon"));
-    join.appendChild(actions);
-    overview.appendChild(current);
-    overview.appendChild(join);
+      });
+      join.appendChild(actions);
+      overview.appendChild(join);
+    }
     app.appendChild(overview);
 
     const highlights = make("article", "info-panel");
