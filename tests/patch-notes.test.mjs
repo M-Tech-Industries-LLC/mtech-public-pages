@@ -81,6 +81,37 @@ async function renderTesting(links) {
   return app;
 }
 
+async function renderPatchNotes(release) {
+  const app = new FakeElement("div");
+  app.dataset = {
+    product: "afon",
+    view: "patch-notes",
+    dataPath: "/assets/data/patch-notes.json"
+  };
+
+  const context = {
+    document: {
+      querySelector: () => app,
+      createElement: (tagName) => new FakeElement(tagName)
+    },
+    fetch: async () => ({
+      ok: true,
+      json: async () => ({
+        products: {
+          afon: {
+            name: "Afon",
+            releases: [structuredClone(release)]
+          }
+        }
+      })
+    }),
+    structuredClone
+  };
+  vm.runInNewContext(rendererSource, context);
+  await new Promise((resolve) => setImmediate(resolve));
+  return app;
+}
+
 test("testing renderer omits Join Testing when no valid links exist", async () => {
   const app = await renderTesting([]);
   const headings = descendants(app)
@@ -106,4 +137,40 @@ test("testing renderer shows only valid testing links", async () => {
   assert.equal(anchors.length, 1);
   assert.equal(anchors[0].textContent, "Android Testing");
   assert.equal(anchors[0].href, "https://example.test/android");
+});
+
+test("patch-notes renderer shows grouped improvements and release details", async () => {
+  const app = await renderPatchNotes({
+    version: "0.1.3+24",
+    buildNumber: "24",
+    releaseDate: "September 2026",
+    platforms: ["Android"],
+    summary: "Build 24 summary.",
+    details: "Build 24 details.",
+    improvements: [
+      {
+        title: "More reliable navigation",
+        items: ["Improved address-bar and search navigation"]
+      }
+    ],
+    knownIssuesTitle: "Known Compatibility Notes",
+    knownIssues: ["Some services may behave differently"]
+  });
+  const elements = descendants(app);
+  const headings = elements
+    .filter((element) => ["h3", "h4"].includes(element.tagName))
+    .map((element) => element.textContent);
+  const paragraphs = elements
+    .filter((element) => element.tagName === "p")
+    .map((element) => element.textContent);
+  const listItems = elements
+    .filter((element) => element.tagName === "li")
+    .map((element) => element.textContent);
+
+  assert.ok(headings.includes("Version 0.1.3+24"));
+  assert.ok(headings.includes("More reliable navigation"));
+  assert.ok(headings.includes("Known Compatibility Notes"));
+  assert.ok(paragraphs.includes("Build 24 summary."));
+  assert.ok(paragraphs.includes("Build 24 details."));
+  assert.ok(listItems.includes("Improved address-bar and search navigation"));
 });

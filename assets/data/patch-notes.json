@@ -5,9 +5,9 @@
       "category": "Browser",
       "description": "Afon is a browser from M-Tech Industries focused on dependable, privacy-conscious browsing for personal and managed environments.",
       "testing": {
-        "currentAndroidVersion": "0.1.3+23",
+        "currentAndroidVersion": "0.1.3+24",
         "currentIosVersion": "0.1.1+13",
-        "currentAndroidBuild": "23",
+        "currentAndroidBuild": "24",
         "currentIosBuild": "13",
         "androidTestingStatus": "Open Testing",
         "iosTestingStatus": "Latest recorded testing build",
@@ -23,11 +23,92 @@
       },
       "releases": [
         {
+          "version": "0.1.3+24",
+          "buildNumber": "24",
+          "releaseDate": "September 2026",
+          "platforms": ["Android"],
+          "testingStatus": "Current Android Open Testing release",
+          "summary": "Build 24 focuses on navigation reliability, safer link handling, and a more consistent browsing experience across Android and iOS.",
+          "details": "This release includes substantial improvements to how Afon handles links opened from other apps, protected navigation, external-app handoffs, Private sessions, and recovery when a navigation is interrupted or blocked.",
+          "improvements": [
+            {
+              "title": "More reliable navigation",
+              "items": [
+                "Improved address-bar and search navigation",
+                "Fixed cases where a page could remain on the Afon Start Page instead of opening",
+                "Improved handling of redirects and multi-step navigation",
+                "Improved page loading and presentation consistency across Android and iOS"
+              ]
+            },
+            {
+              "title": "Better links from other apps",
+              "items": [
+                "Improved links opened from email, messaging, and other applications",
+                "Fixed cases where inbound links could fail to display, create incorrect navigation state, or interfere with another tab",
+                "Improved rapid-link handling so separate link activations remain separate without creating duplicate tabs or stale navigation"
+              ]
+            },
+            {
+              "title": "Improved Link Protection",
+              "items": [
+                "Strengthened Standard and Strict navigation behavior",
+                "Improved Strict recovery when a navigation requires intervention",
+                "Allow Once now more reliably continues the exact navigation the user approved",
+                "Fixed Strict recovery state remaining active after switching back to Standard",
+                "Improved protection against stale or superseded navigation actions"
+              ]
+            },
+            {
+              "title": "External app handoffs",
+              "items": [
+                "Improved prompts when a website requests to open another application",
+                "Open Once now reliably performs a single approved handoff",
+                "Android can offer one-time approval for supported, safely resolvable external-app requests without automatically granting persistent permission",
+                "Improved Google Play handoffs",
+                "Improved App Store handoffs on iOS",
+                "Safer fallback behavior when the requested application is unavailable",
+                "Websites cannot silently escape Afon into another application without the appropriate user-controlled handoff"
+              ]
+            },
+            {
+              "title": "Private browsing",
+              "items": [
+                "Improved Private-session navigation and inbound-link behavior",
+                "Strengthened session cleanup and ownership isolation",
+                "Improved consistency between Personal and Private browsing without weakening Private-session protections"
+              ]
+            },
+            {
+              "title": "Cross-platform consistency",
+              "items": [
+                "Improved behavioral parity between Android and iOS",
+                "Strict Link Protection is now qualified for iOS Release use",
+                "Improved external-app behavior on both platforms",
+                "Improved authentication and sign-in navigation compatibility"
+              ]
+            },
+            {
+              "title": "Recovery and tab reliability",
+              "items": [
+                "Improved Back and Home recovery after blocked or failed navigation",
+                "Fixed several cases involving stale recovery surfaces or navigation ownership",
+                "Improved behavior when multiple links are opened rapidly",
+                "Superseded tabs can no longer take over a newer page or recovery flow"
+              ]
+            }
+          ],
+          "knownIssuesTitle": "Known Compatibility Notes",
+          "knownIssues": [
+            "Some websites and external services may still behave differently depending on their own redirect, authentication, anti-automation, or link-expiration behavior",
+            "A small number of service-specific cases remain known, including certain expired or service-generated links. These do not currently indicate a general Afon navigation failure"
+          ]
+        },
+        {
           "version": "0.1.3+23",
           "buildNumber": "23",
           "releaseDate": "August 2026",
           "platforms": ["Android"],
-          "testingStatus": "Current Android Open Testing release",
+          "testingStatus": "Previous testing release",
           "summary": "Separated browser protection controls and improved reliability when applying protection and navigation decisions.",
           "whatsNew": [
             "Separated Tracker and Ad Protection from Link Protection",

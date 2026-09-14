@@ -51,13 +51,21 @@
       const highlights = make("div", "release-section");
       highlights.appendChild(make("h4", "", "Highlights"));
       highlights.appendChild(make("p", "", release.summary));
+      if (release.details) {
+        highlights.appendChild(make("p", "", release.details));
+      }
       article.appendChild(highlights);
     }
+
+    (release.improvements || []).forEach((improvement) => {
+      const block = section(improvement.title, improvement.items);
+      if (block) article.appendChild(block);
+    });
 
     [
       ["What's New", release.whatsNew],
       ["Fixes", release.fixes],
-      ["Known Issues", release.knownIssues],
+      [release.knownIssuesTitle || "Known Issues", release.knownIssues],
       ["Tester Focus", release.testerFocus]
     ].forEach(([title, items]) => {
       const block = section(title, items);
