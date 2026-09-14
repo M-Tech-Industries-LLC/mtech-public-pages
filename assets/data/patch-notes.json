@@ -23,6 +23,26 @@
       },
       "releases": [
         {
+          "version": "0.1.3+25",
+          "buildNumber": "25",
+          "releaseDate": "September 2026",
+          "summary": "Build 25 focuses on reliability and consistency across Afon’s navigation and privacy protections.",
+          "whatsNew": [
+            "Standard is now the default Link Protection mode",
+            "Improved Standard and Strict navigation behavior",
+            "Improved Strict-mode tab loading and new-tab reliability",
+            "Improved handling of blocked navigation and bounded recovery",
+            "More consistent Tracker, URL Safety, link, and download protections",
+            "Improved external-link and navigation classification",
+            "Improved tab lifecycle, Back/Forward, refresh, and background/foreground behavior",
+            "Improved diagnostics and policy reporting",
+            "General stability and reliability improvements"
+          ],
+          "knownIssues": [
+            "DuckDuckGo searches initiated from Afon’s Start Page may occasionally take longer to begin on some devices. Refreshing generally completes the search normally."
+          ]
+        },
+        {
           "version": "0.1.3+24",
           "buildNumber": "24",
           "releaseDate": "September 2026",

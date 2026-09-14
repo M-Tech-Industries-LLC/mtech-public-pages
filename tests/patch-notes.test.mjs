@@ -38,7 +38,7 @@ function descendants(element) {
   return [element, ...element.children.flatMap(descendants)];
 }
 
-async function renderTesting(links) {
+async function renderTesting(links, product) {
   const app = new FakeElement("div");
   app.dataset = {
     product: "afon",
@@ -72,7 +72,7 @@ async function renderTesting(links) {
     },
     fetch: async () => ({
       ok: true,
-      json: async () => structuredClone(data)
+      json: async () => structuredClone(product ? { products: { afon: product } } : data)
     }),
     structuredClone
   };
@@ -100,7 +100,7 @@ async function renderPatchNotes(release) {
         products: {
           afon: {
             name: "Afon",
-            releases: [structuredClone(release)]
+            releases: structuredClone(Array.isArray(release) ? release : [release])
           }
         }
       })
@@ -173,4 +173,45 @@ test("patch-notes renderer shows grouped improvements and release details", asyn
   assert.ok(paragraphs.includes("Build 24 summary."));
   assert.ok(paragraphs.includes("Build 24 details."));
   assert.ok(listItems.includes("Improved address-bar and search navigation"));
+});
+
+test("Build 25 preserves approved copy and renders before Build 24", async () => {
+  const product = JSON.parse(readFileSync(
+    new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
+  )).products.afon;
+  const latest = product.releases[0];
+  const approvedBullets = [
+    "Standard is now the default Link Protection mode",
+    "Improved Standard and Strict navigation behavior",
+    "Improved Strict-mode tab loading and new-tab reliability",
+    "Improved handling of blocked navigation and bounded recovery",
+    "More consistent Tracker, URL Safety, link, and download protections",
+    "Improved external-link and navigation classification",
+    "Improved tab lifecycle, Back/Forward, refresh, and background/foreground behavior",
+    "Improved diagnostics and policy reporting",
+    "General stability and reliability improvements"
+  ];
+  const knownIssue = "DuckDuckGo searches initiated from Afon’s Start Page may occasionally take longer to begin on some devices. Refreshing generally completes the search normally.";
+  assert.equal(latest.buildNumber, "25");
+  assert.equal(latest.summary, "Build 25 focuses on reliability and consistency across Afon’s navigation and privacy protections.");
+  assert.deepEqual(latest.whatsNew, approvedBullets);
+  assert.deepEqual(latest.knownIssues, [knownIssue]);
+  const app = await renderPatchNotes(product.releases);
+  const cards = app.children.filter((element) => element.className === "release-card");
+  assert.equal(cards[0].children[0].textContent, "Version 0.1.3+25");
+  assert.equal(cards[1].children[0].textContent, "Version 0.1.3+24");
+  const sections = cards[0].children.filter((element) => element.className === "release-section");
+  const improvements = sections.find((element) => element.children[0].textContent === "What's New");
+  const known = sections.find((element) => element.children[0].textContent === "Known Issues");
+  assert.deepEqual(descendants(improvements).filter((element) => element.tagName === "li").map((element) => element.textContent), approvedBullets);
+  assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), [knownIssue]);
+});
+
+test("newest-release Known Issues surface uses Build 25", async () => {
+  const product = JSON.parse(readFileSync(
+    new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
+  )).products.afon;
+  const app = await renderTesting(product.testing.links, product);
+  const known = app.children.find((element) => element.children[0]?.textContent === "Known Issues");
+  assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), product.releases[0].knownIssues);
 });
