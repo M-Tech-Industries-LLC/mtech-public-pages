@@ -23,6 +23,31 @@
       },
       "releases": [
         {
+          "version": "0.1.3+26",
+          "buildNumber": "26",
+          "releaseDate": "September 2026",
+          "platforms": ["Android", "iOS / iPadOS"],
+          "summary": "Build 26 adds more search choices, improves links between Afon and other apps, and makes search navigation more reliable.",
+          "whatsNew": [
+            "More search choices — Added Brave, Startpage, Ecosia, and Yahoo alongside Google, DuckDuckGo, Bing, and Custom search.",
+            "More reliable search navigation — Fixed an iOS issue where search results could load but the search overlay stayed visible and prevented access to browser controls.",
+            "Improved external-app handling — Open supported apps once, manage saved approvals or denials, and remove saved decisions when needed.",
+            "Google Maps handoffs — Fixed supported Maps links that could return to an Access Blocked loop instead of opening the app.",
+            "Android application preapproval — Add supported installed apps from Settings → Approved Applications, including Google Maps, YouTube, Google Play, and Reddit.",
+            "iOS Default Browser support — Select Afon as your default browser to open links from other apps in their own tabs without replacing unrelated tabs.",
+            "More reliable incoming links — Improved link handling when returning to Afon, including Private Session; blocked HTTP links now reach the existing URL Safety warning.",
+            "More specific site controls — Manage Trusted Domains separately for Link Protection, URL Safety, and Tracker protection."
+          ],
+          "knownIssuesTitle": "Compatibility and Support Notes",
+          "knownIssues": [
+            "Build 26 requires iOS or iPadOS 15 or later.",
+            "Standard remains the default Link Protection mode. Strict Link Protection is available on Android, not in this iOS release.",
+            "HTTP links remain blocked by default. Build 26 does not add a Continue Once or Try HTTPS action.",
+            "Search providers may show verification, CAPTCHA, or consent pages. Yahoo verification can also encounter Afon’s existing download restriction.",
+            "Private tabs may lose Back/Forward history when switching tabs on iPad. This is not resolved in Build 26."
+          ]
+        },
+        {
           "version": "0.1.3+25",
           "buildNumber": "25",
           "releaseDate": "September 2026",

@@ -179,7 +179,7 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   const product = JSON.parse(readFileSync(
     new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
   )).products.afon;
-  const latest = product.releases[0];
+  const latest = product.releases.find((release) => release.buildNumber === "25");
   const approvedBullets = [
     "Standard is now the default Link Protection mode",
     "Improved Standard and Strict navigation behavior",
@@ -196,7 +196,7 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.equal(latest.summary, "Build 25 focuses on reliability and consistency across Afon’s navigation and privacy protections.");
   assert.deepEqual(latest.whatsNew, approvedBullets);
   assert.deepEqual(latest.knownIssues, [knownIssue]);
-  const app = await renderPatchNotes(product.releases);
+  const app = await renderPatchNotes(product.releases.filter((release) => release.buildNumber !== "26"));
   const cards = app.children.filter((element) => element.className === "release-card");
   assert.equal(cards[0].children[0].textContent, "Version 0.1.3+25");
   assert.equal(cards[1].children[0].textContent, "Version 0.1.3+24");
@@ -207,11 +207,33 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), [knownIssue]);
 });
 
-test("newest-release Known Issues surface uses Build 25", async () => {
+test("newest-release Known Issues surface uses Build 26", async () => {
   const product = JSON.parse(readFileSync(
     new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
   )).products.afon;
   const app = await renderTesting(product.testing.links, product);
   const known = app.children.find((element) => element.children[0]?.textContent === "Known Issues");
   assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), product.releases[0].knownIssues);
+});
+
+test("Build 26 renders first with platform limits and no carried-forward fixes", async () => {
+  const product = JSON.parse(readFileSync(
+    new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
+  )).products.afon;
+  const release = product.releases[0];
+  assert.equal(release.version, "0.1.3+26");
+  assert.equal(release.buildNumber, "26");
+  assert.deepEqual(release.platforms, ["Android", "iOS / iPadOS"]);
+  assert.equal(release.whatsNew.length, 8);
+  assert.ok(release.whatsNew.some((text) => text.includes("Brave, Startpage, Ecosia, and Yahoo")));
+  assert.ok(release.whatsNew.some((text) => text.includes("search overlay")));
+  assert.ok(release.knownIssues.some((text) => text.includes("15 or later")));
+  assert.ok(release.knownIssues.some((text) => text.includes("not in this iOS release")));
+  assert.ok(release.knownIssues.some((text) => text.includes("not resolved in Build 26")));
+  assert.ok(!/video|typing|faster|Try HTTPS|Edit Address|adaptive/i.test(release.whatsNew.join(" ")));
+  const app = await renderPatchNotes(product.releases);
+  const cards = app.children.filter((element) => element.className === "release-card");
+  assert.deepEqual(cards.slice(0, 3).map((card) => card.children[0].textContent),
+    ["Version 0.1.3+26", "Version 0.1.3+25", "Version 0.1.3+24"]);
+  assert.ok(descendants(cards[0]).some((element) => element.textContent === "Compatibility and Support Notes"));
 });
