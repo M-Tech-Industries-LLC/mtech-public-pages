@@ -196,7 +196,7 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.equal(latest.summary, "Build 25 focuses on reliability and consistency across Afon’s navigation and privacy protections.");
   assert.deepEqual(latest.whatsNew, approvedBullets);
   assert.deepEqual(latest.knownIssues, [knownIssue]);
-  const app = await renderPatchNotes(product.releases.filter((release) => release.buildNumber !== "26"));
+  const app = await renderPatchNotes(product.releases.filter((release) => !["26", "27"].includes(release.buildNumber)));
   const cards = app.children.filter((element) => element.className === "release-card");
   assert.equal(cards[0].children[0].textContent, "Version 0.1.3+25");
   assert.equal(cards[1].children[0].textContent, "Version 0.1.3+24");
@@ -207,7 +207,7 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), [knownIssue]);
 });
 
-test("newest-release Known Issues surface uses Build 26", async () => {
+test("newest-release Known Issues surface uses Build 27", async () => {
   const product = JSON.parse(readFileSync(
     new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
   )).products.afon;
@@ -216,11 +216,48 @@ test("newest-release Known Issues surface uses Build 26", async () => {
   assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), product.releases[0].knownIssues);
 });
 
-test("Build 26 renders first with platform limits and no carried-forward fixes", async () => {
+test("Build 27 preserves approved copy and renders before prior releases", async () => {
   const product = JSON.parse(readFileSync(
     new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
   )).products.afon;
   const release = product.releases[0];
+  const approvedBullets = [
+    "Clearer explanations when Afon blocks or interrupts navigation, with more helpful recovery options.",
+    "Added Try HTTPS for eligible HTTP links. Afon tries the secure address without first contacting the insecure HTTP address.",
+    "Improved Edit Address so the blocked URL is restored and ready to change.",
+    "More consistent recovery from blocked HTTP navigation across typed addresses, tapped links, the Start page, and links opened from other apps.",
+    "Private Session now preserves each tab’s navigation history while the session remains open, with improved isolation and cleanup of private browsing storage.",
+    "Improved Start-page search compatibility, including Yahoo verification flows.",
+    "Improved tab handling and protection against outdated navigation events.",
+    "Accessibility and layout improvements across screen sizes, plus fixes for links opened from other apps and default-browser handling.",
+    "General reliability fixes across Android, iPhone, and iPad."
+  ];
+  const approvedSummary = "Build 27 improves navigation recovery, Private Session behavior, Start-page search compatibility, tab handling, accessibility, and reliability across Android, iPhone, and iPad.";
+  const approvedSecurityCopy = "Security remains unchanged: Insecure HTTP navigation stays blocked. Try HTTPS and Edit Address provide recovery options while preserving Afon’s existing security protections.";
+  assert.equal(release.version, "0.1.3+27");
+  assert.equal(release.buildNumber, "27");
+  assert.equal(release.releaseDate, undefined);
+  assert.deepEqual(release.platforms, ["Android", "iOS / iPadOS"]);
+  assert.equal(release.summary, approvedSummary);
+  assert.equal(release.details, approvedSecurityCopy);
+  assert.deepEqual(release.whatsNew, approvedBullets);
+  assert.ok(release.knownIssues.some((text) => text.includes("15 or later")));
+  assert.ok(release.knownIssues.some((text) => text.includes("not in this iOS release")));
+  assert.ok(release.knownIssues.some((text) => text.includes("does not add Continue Once")));
+  assert.ok(!release.knownIssues.some((text) => /Yahoo verification|Private tabs may lose/i.test(text)));
+  assert.ok(!product.releases.some((item) => item.buildNumber === "28"));
+  const app = await renderPatchNotes(product.releases);
+  const cards = app.children.filter((element) => element.className === "release-card");
+  assert.deepEqual(cards.slice(0, 3).map((card) => card.children[0].textContent),
+    ["Version 0.1.3+27", "Version 0.1.3+26", "Version 0.1.3+25"]);
+  assert.ok(descendants(cards[0]).some((element) => element.textContent === "Compatibility and Security Notes"));
+});
+
+test("Build 26 remains intact as historical release data", async () => {
+  const product = JSON.parse(readFileSync(
+    new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
+  )).products.afon;
+  const release = product.releases.find((item) => item.buildNumber === "26");
   assert.equal(release.version, "0.1.3+26");
   assert.equal(release.buildNumber, "26");
   assert.deepEqual(release.platforms, ["Android", "iOS / iPadOS"]);
@@ -231,9 +268,7 @@ test("Build 26 renders first with platform limits and no carried-forward fixes",
   assert.ok(release.knownIssues.some((text) => text.includes("not in this iOS release")));
   assert.ok(release.knownIssues.some((text) => text.includes("not resolved in Build 26")));
   assert.ok(!/video|typing|faster|Try HTTPS|Edit Address|adaptive/i.test(release.whatsNew.join(" ")));
-  const app = await renderPatchNotes(product.releases);
-  const cards = app.children.filter((element) => element.className === "release-card");
-  assert.deepEqual(cards.slice(0, 3).map((card) => card.children[0].textContent),
-    ["Version 0.1.3+26", "Version 0.1.3+25", "Version 0.1.3+24"]);
-  assert.ok(descendants(cards[0]).some((element) => element.textContent === "Compatibility and Support Notes"));
+  const app = await renderPatchNotes([release]);
+  const card = app.children.find((element) => element.className === "release-card");
+  assert.ok(descendants(card).some((element) => element.textContent === "Compatibility and Support Notes"));
 });

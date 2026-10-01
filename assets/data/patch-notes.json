@@ -23,6 +23,30 @@
       },
       "releases": [
         {
+          "version": "0.1.3+27",
+          "buildNumber": "27",
+          "platforms": ["Android", "iOS / iPadOS"],
+          "summary": "Build 27 improves navigation recovery, Private Session behavior, Start-page search compatibility, tab handling, accessibility, and reliability across Android, iPhone, and iPad.",
+          "details": "Security remains unchanged: Insecure HTTP navigation stays blocked. Try HTTPS and Edit Address provide recovery options while preserving Afon’s existing security protections.",
+          "whatsNew": [
+            "Clearer explanations when Afon blocks or interrupts navigation, with more helpful recovery options.",
+            "Added Try HTTPS for eligible HTTP links. Afon tries the secure address without first contacting the insecure HTTP address.",
+            "Improved Edit Address so the blocked URL is restored and ready to change.",
+            "More consistent recovery from blocked HTTP navigation across typed addresses, tapped links, the Start page, and links opened from other apps.",
+            "Private Session now preserves each tab’s navigation history while the session remains open, with improved isolation and cleanup of private browsing storage.",
+            "Improved Start-page search compatibility, including Yahoo verification flows.",
+            "Improved tab handling and protection against outdated navigation events.",
+            "Accessibility and layout improvements across screen sizes, plus fixes for links opened from other apps and default-browser handling.",
+            "General reliability fixes across Android, iPhone, and iPad."
+          ],
+          "knownIssuesTitle": "Compatibility and Security Notes",
+          "knownIssues": [
+            "Build 27 requires iOS or iPadOS 15 or later.",
+            "Standard remains the default Link Protection mode. Strict Link Protection is available on Android, not in this iOS release.",
+            "Insecure HTTP navigation remains blocked. Build 27 does not add Continue Once; use Try HTTPS or Edit Address when available."
+          ]
+        },
+        {
           "version": "0.1.3+26",
           "buildNumber": "26",
           "releaseDate": "September 2026",
