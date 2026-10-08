@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-22T00:00:00Z",
+  "themes": [
+    {
+      "themeId": "nebula",
+      "publisherId": "mtech",
+      "name": "Nebula",
+      "description": "A space-inspired visual theme for Afon.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/nebula/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/nebula/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "smoke",
+      "publisherId": "mtech",
+      "name": "Smoke",
+      "description": "A smoky neutral visual theme for Afon token testing.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/smoke/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/smoke/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "ice",
+      "publisherId": "mtech",
+      "name": "Ice",
+      "description": "A clean frozen-inspired theme featuring frosted glass surfaces, icy blue accents, and crystal-inspired UI treatments.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/ice/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/ice/package.sha256",
+      "status": "experimental"
+    }
+  ]
+}
