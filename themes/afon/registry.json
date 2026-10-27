@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-22T00:00:00Z",
+  "updatedAt": "2026-10-27T14:13:47Z",
   "themes": [
     {
       "themeId": "nebula",
@@ -34,6 +34,72 @@
       "packageUrl": "https://m-techindustries.com/themes/afon/ice/package.zip",
       "sha256Url": "https://m-techindustries.com/themes/afon/ice/package.sha256",
       "status": "experimental"
+    },
+    {
+      "themeId": "afterglow-86",
+      "publisherId": "mtech",
+      "name": "Afterglow '86",
+      "description": "An original neon arcade-future theme with ultraviolet depth, cyan light, magenta energy, and restrained CRT texture.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/afterglow-86/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/afterglow-86/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "ember",
+      "publisherId": "mtech",
+      "name": "Ember",
+      "description": "An elegant elemental fire theme shaped by charcoal, molten orange, warm gold, and slow ribbons of flame.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/ember/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/ember/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "reading-room",
+      "publisherId": "mtech",
+      "name": "The Reading Room",
+      "description": "A bookish coffeehouse theme with espresso shadows, walnut warmth, parchment surfaces, and aged brass accents.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/reading-room/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/reading-room/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "terrene",
+      "publisherId": "mtech",
+      "name": "Terrene",
+      "description": "A grounded elemental earth theme with forest soil, living moss, clay strata, stone, and quiet mineral seams.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/terrene/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/terrene/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "tidal",
+      "publisherId": "mtech",
+      "name": "Tidal",
+      "description": "A tranquil elemental water theme with abyssal blue, sea-glass highlights, flowing currents, and luminous depth.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/tidal/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/tidal/package.sha256",
+      "status": "active"
+    },
+    {
+      "themeId": "zephyr",
+      "publisherId": "mtech",
+      "name": "Zephyr",
+      "description": "A bright elemental air theme with cloud white, pale sky, blue-gray structure, and weightless pearlescent motion.",
+      "author": "M-Tech Industries",
+      "version": "1.0.0",
+      "packageUrl": "https://m-techindustries.com/themes/afon/zephyr/package.zip",
+      "sha256Url": "https://m-techindustries.com/themes/afon/zephyr/package.sha256",
+      "status": "active"
     }
   ]
 }
