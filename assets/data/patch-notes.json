@@ -60,6 +60,7 @@
         {
           "version": "0.1.3+28",
           "buildNumber": "28",
+          "releaseDate": "October 28, 2026",
           "platforms": [
             "Android",
             "iOS / iPadOS"
@@ -89,6 +90,7 @@
         {
           "version": "0.1.3+27",
           "buildNumber": "27",
+          "releaseDate": "October 1, 2026",
           "platforms": ["Android", "iOS / iPadOS"],
           "summary": "Build 27 improves navigation recovery, Private Session behavior, Start-page search compatibility, tab handling, accessibility, and reliability across Android, iPhone, and iPad.",
           "details": "Security remains unchanged: Insecure HTTP navigation stays blocked. Try HTTPS and Edit Address provide recovery options while preserving Afon’s existing security protections.",

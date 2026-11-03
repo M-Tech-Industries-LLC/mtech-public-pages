@@ -240,7 +240,7 @@ test("Build 27 preserves approved copy and renders before prior releases", async
   const approvedSecurityCopy = "Security remains unchanged: Insecure HTTP navigation stays blocked. Try HTTPS and Edit Address provide recovery options while preserving Afon’s existing security protections.";
   assert.equal(release.version, "0.1.3+27");
   assert.equal(release.buildNumber, "27");
-  assert.equal(release.releaseDate, undefined);
+  assert.equal(release.releaseDate, "October 1, 2026");
   assert.deepEqual(release.platforms, ["Android", "iOS / iPadOS"]);
   assert.equal(release.summary, approvedSummary);
   assert.equal(release.details, approvedSecurityCopy);
@@ -280,7 +280,7 @@ test("Build 28 renders current improvements and Private Session limitation befor
   const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
   const release = product.releases[0];
   assert.equal(release.version, "0.1.3+28");
-  assert.equal(release.releaseDate, undefined);
+  assert.equal(release.releaseDate, "October 28, 2026");
   assert.equal(release.whatsNew.length, 10);
   assert.equal(release.knownIssues.length, 1);
   assert.match(release.knownIssues[0], /Private Session.*temporary tabs.*Normal browsing-session external application cleanup is unaffected/);
@@ -289,7 +289,8 @@ test("Build 28 renders current improvements and Private Session limitation befor
   assert.deepEqual(cards.slice(0, 4).map((card) => card.children[0].textContent),
     ["Version 0.1.3+28", "Version 0.1.3+27", "Version 0.1.3+26", "Version 0.1.3+25"]);
   const text = descendants(cards[0]).map((element) => element.textContent).join(" ");
-  assert.match(text, /Date not provided/);
+  assert.match(text, /October 28, 2026/);
+  assert.match(descendants(cards[1]).map((element) => element.textContent).join(" "), /October 1, 2026/);
   assert.match(text, /not available in the iOS/);
   assert.match(text, /Afterglow ’86, Ember, Ice, Nebula, Reading Room, Smoke, Terrene, Tidal, and Zephyr/);
 });
