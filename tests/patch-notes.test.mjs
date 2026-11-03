@@ -38,11 +38,11 @@ function descendants(element) {
   return [element, ...element.children.flatMap(descendants)];
 }
 
-async function renderTesting(links, product) {
+async function renderTesting(links, product, view = "testing", ok = true) {
   const app = new FakeElement("div");
   app.dataset = {
     product: "afon",
-    view: "testing",
+    view,
     dataPath: "/assets/data/patch-notes.json"
   };
 
@@ -71,7 +71,7 @@ async function renderTesting(links, product) {
       createElement: (tagName) => new FakeElement(tagName)
     },
     fetch: async () => ({
-      ok: true,
+      ok,
       json: async () => structuredClone(product ? { products: { afon: product } } : data)
     }),
     structuredClone
@@ -112,14 +112,14 @@ async function renderPatchNotes(release) {
   return app;
 }
 
-test("testing renderer omits Join Testing when no valid links exist", async () => {
+test("testing renderer omits distribution links when no valid links exist", async () => {
   const app = await renderTesting([]);
   const headings = descendants(app)
     .filter((element) => element.tagName === "h2")
     .map((element) => element.textContent);
 
-  assert.ok(headings.includes("Testing Versions"));
-  assert.ok(!headings.includes("Join Testing"));
+  assert.ok(headings.includes("Testing distribution"));
+  assert.ok(!headings.includes("Distribution links"));
 });
 
 test("testing renderer shows only valid testing links", async () => {
@@ -131,9 +131,9 @@ test("testing renderer shows only valid testing links", async () => {
   const headings = elements
     .filter((element) => element.tagName === "h2")
     .map((element) => element.textContent);
-  const anchors = elements.filter((element) => element.tagName === "a");
+  const anchors = elements.filter((element) => element.tagName === "a" && element.className === "button primary");
 
-  assert.ok(headings.includes("Join Testing"));
+  assert.ok(headings.includes("Distribution links"));
   assert.equal(anchors.length, 1);
   assert.equal(anchors[0].textContent, "Android Testing");
   assert.equal(anchors[0].href, "https://example.test/android");
@@ -196,7 +196,7 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.equal(latest.summary, "Build 25 focuses on reliability and consistency across Afon’s navigation and privacy protections.");
   assert.deepEqual(latest.whatsNew, approvedBullets);
   assert.deepEqual(latest.knownIssues, [knownIssue]);
-  const app = await renderPatchNotes(product.releases.filter((release) => !["26", "27"].includes(release.buildNumber)));
+  const app = await renderPatchNotes(product.releases.filter((release) => !["26", "27", "28"].includes(release.buildNumber)));
   const cards = app.children.filter((element) => element.className === "release-card");
   assert.equal(cards[0].children[0].textContent, "Version 0.1.3+25");
   assert.equal(cards[1].children[0].textContent, "Version 0.1.3+24");
@@ -207,7 +207,7 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), [knownIssue]);
 });
 
-test("newest-release Known Issues surface uses Build 27", async () => {
+test("newest-release Known Issues surface uses Build 28", async () => {
   const product = JSON.parse(readFileSync(
     new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
   )).products.afon;
@@ -220,7 +220,7 @@ test("Build 27 preserves approved copy and renders before prior releases", async
   const product = JSON.parse(readFileSync(
     new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
   )).products.afon;
-  const release = product.releases[0];
+  const release = product.releases.find((item) => item.buildNumber === "27");
   const approvedBullets = [
     "Clearer explanations when Afon blocks or interrupts navigation, with more helpful recovery options.",
     "Added Try HTTPS for eligible HTTP links. Afon tries the secure address without first contacting the insecure HTTP address.",
@@ -245,8 +245,7 @@ test("Build 27 preserves approved copy and renders before prior releases", async
   assert.ok(release.knownIssues.some((text) => text.includes("not in this iOS release")));
   assert.ok(release.knownIssues.some((text) => text.includes("does not add Continue Once")));
   assert.ok(!release.knownIssues.some((text) => /Yahoo verification|Private tabs may lose/i.test(text)));
-  assert.ok(!product.releases.some((item) => item.buildNumber === "28"));
-  const app = await renderPatchNotes(product.releases);
+  const app = await renderPatchNotes(product.releases.filter((item) => item.buildNumber !== "28"));
   const cards = app.children.filter((element) => element.className === "release-card");
   assert.deepEqual(cards.slice(0, 3).map((card) => card.children[0].textContent),
     ["Version 0.1.3+27", "Version 0.1.3+26", "Version 0.1.3+25"]);
@@ -271,4 +270,60 @@ test("Build 26 remains intact as historical release data", async () => {
   const app = await renderPatchNotes([release]);
   const card = app.children.find((element) => element.className === "release-card");
   assert.ok(descendants(card).some((element) => element.textContent === "Compatibility and Support Notes"));
+});
+
+test("Build 28 renders current improvements and Private Session limitation before history", async () => {
+  const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
+  const release = product.releases[0];
+  assert.equal(release.version, "0.1.3+28");
+  assert.equal(release.releaseDate, undefined);
+  assert.equal(release.whatsNew.length, 10);
+  assert.equal(release.knownIssues.length, 1);
+  assert.match(release.knownIssues[0], /Private Session.*temporary tabs.*Normal browsing-session external application cleanup is unaffected/);
+  const app = await renderPatchNotes(product.releases);
+  const cards = app.children.filter((element) => element.className === "release-card");
+  assert.deepEqual(cards.slice(0, 4).map((card) => card.children[0].textContent),
+    ["Version 0.1.3+28", "Version 0.1.3+27", "Version 0.1.3+26", "Version 0.1.3+25"]);
+  const text = descendants(cards[0]).map((element) => element.textContent).join(" ");
+  assert.match(text, /Date not provided/);
+  assert.match(text, /not available in the iOS/);
+  assert.match(text, /Afterglow ’86, Ember, Ice, Nebula, Reading Room, Smoke, Terrene, Tidal, and Zephyr/);
+});
+
+test("issue review separates confirmed active, unverified historical, and resolved reports", async () => {
+  const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
+  const app = await renderTesting([], product, "known-issues");
+  const headings = descendants(app).filter((element) => element.tagName === "h2").map((element) => element.textContent);
+  assert.deepEqual(headings, ["Active issues — 0.1.3+28", "Compatibility and Security Notes", "Historical reports — verification needed", "Resolved or superseded reports"]);
+  const active = app.children[0];
+  assert.deepEqual(descendants(active).filter((element) => element.tagName === "li").map((element) => element.textContent), product.releases[0].knownIssues);
+  assert.equal(product.issueReview.verificationNeeded.length, 3);
+  assert.equal(product.issueReview.resolved.length, 2);
+  assert.ok(!descendants(active).some((element) => /DuckDuckGo|CrushOn/.test(element.textContent)));
+});
+
+test("known issues retain a public warning and support route on fetch failure", async () => {
+  const app = await renderTesting([], undefined, "known-issues", false);
+  const text = descendants(app).map((element) => element.textContent).join(" ");
+  assert.match(text, /Release information unavailable/);
+  assert.match(text, /Private Session.*temporary tabs/);
+  assert.ok(descendants(app).some((element) => element.href === "mailto:support@m-techindustries.com"));
+});
+
+test("Build 28 distribution uses TestFlight and leaves the Google Play track unconfirmed", async () => {
+  const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
+  assert.equal(product.testing.currentAndroidVersion, "0.1.3+28");
+  assert.equal(product.testing.currentIosVersion, "0.1.3+28");
+  assert.equal(product.testing.currentAndroidBuild, "28");
+  assert.equal(product.testing.currentIosBuild, "28");
+  const app = await renderTesting(product.testing.links, product);
+  const elements = descendants(app);
+  const text = elements.map((element) => element.textContent).join(" ");
+  assert.match(text, /Current distributed testing release: 0.1.3\+28/);
+  assert.match(text, /Testing distribution/);
+  assert.match(text, /Google Play.*track is unconfirmed/);
+  assert.match(text, /iPhone and iPad distribution uses TestFlight testing/);
+  assert.doesNotMatch(text, /Historical distribution records|0.1.3\+24|0.1.1\+13|App Store|production track|public release/i);
+  assert.deepEqual(elements.filter((element) => element.tagName === "a" && element.className === "button primary").map((element) => element.href),
+    ["https://play.google.com/store/apps/details?id=com.mtech.afon", "https://testflight.apple.com/join/zjH7AkKN"]);
 });

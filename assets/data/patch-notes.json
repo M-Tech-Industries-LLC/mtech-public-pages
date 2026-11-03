@@ -3,15 +3,24 @@
     "afon": {
       "name": "Afon",
       "category": "Browser",
-      "description": "Afon is a browser from M-Tech Industries focused on dependable, privacy-conscious browsing for personal and managed environments.",
+      "description": "Afon Browser — Built Around You. Customization, user control, security controls, and dependable browsing from M-Tech Industries.",
       "testing": {
-        "currentAndroidVersion": "0.1.3+24",
-        "currentIosVersion": "0.1.1+13",
-        "currentAndroidBuild": "24",
-        "currentIosBuild": "13",
-        "androidTestingStatus": "Open Testing",
-        "iosTestingStatus": "Latest recorded testing build",
-        "links": [],
+        "currentAndroidVersion": "0.1.3+28",
+        "currentIosVersion": "0.1.3+28",
+        "currentAndroidBuild": "28",
+        "currentIosBuild": "28",
+        "androidTestingStatus": "Distributed through Google Play — track unconfirmed",
+        "iosTestingStatus": "Distributed through TestFlight — testing release",
+        "links": [
+          {
+            "label": "Google Play — Android",
+            "url": "https://play.google.com/store/apps/details?id=com.mtech.afon"
+          },
+          {
+            "label": "TestFlight — iPhone and iPad testing",
+            "url": "https://testflight.apple.com/join/zjH7AkKN"
+          }
+        ],
         "feedback": "Report issues to support@m-techindustries.com with the version, platform, device, and a short description of what happened.",
         "diagnosticExclusions": [
           "page content",
@@ -21,7 +30,62 @@
           "authentication tokens"
         ]
       },
+      "issueReview": {
+        "verificationNeeded": [
+          {
+            "title": "DuckDuckGo Start-page search delay",
+            "detail": "Reported in Build 25: a search may take longer to begin on some devices. Refreshing generally completes it. Later navigation improvements do not establish that every instance is resolved; current applicability needs verification."
+          },
+          {
+            "title": "Android WebView and CrushOn.ai compatibility",
+            "detail": "Reported in Build 13: intermittent Android WebView compatibility and a CrushOn.ai investigation. Build 28 improves website compatibility, but these specific reports have no confirmed closure. Report reproducible cases to support."
+          },
+          {
+            "title": "Expired or service-generated links",
+            "detail": "Build 24 recorded service-specific cases involving redirects, authentication, anti-automation, or link expiration. Build 28 improves navigation; closure of every older service-specific case has not been verified."
+          }
+        ],
+        "resolved": [
+          {
+            "title": "iPad Private Session Back/Forward history when switching tabs",
+            "detail": "Reported in Build 26; addressed by Build 27’s preservation of each private tab’s navigation history while the session remains open. This is separate from the active external-application temporary-tab issue."
+          },
+          {
+            "title": "Yahoo Start-page verification and download restriction",
+            "detail": "Reported in Build 26; addressed by Build 27’s Start-page search compatibility improvements. Search providers may still require CAPTCHA, consent, or verification; this is not a guarantee that every provider flow will succeed."
+          }
+        ]
+      },
       "releases": [
+        {
+          "version": "0.1.3+28",
+          "buildNumber": "28",
+          "platforms": [
+            "Android",
+            "iOS / iPadOS"
+          ],
+          "summary": "Build 28 introduces significant improvements to navigation reliability, external application handling, website compatibility, themes, and browser security governance.",
+          "whatsNew": [
+            "External App Handling: More reliable application handoffs, clearer confirmation, and improved authorization management.",
+            "Reduced Repeated Prompts: Improved handling of websites that repeatedly request external applications.",
+            "App Link Navigation: Better management of temporary tabs created during external application launches.",
+            "Google Maps Compatibility: Improved Maps navigation, native application launching, and return-to-browser behavior.",
+            "Popup and Window Handling: Improved support for opening website content in existing or new tabs.",
+            "URL Accuracy: Better preservation of links, paths, query parameters, and redirects.",
+            "Website Location Permissions: Improved location permission handling across Android, iPhone, and iPad.",
+            "Production Theme Delivery: Theme services now operate through M-Tech’s production infrastructure.",
+            "Theme Catalog: Nine available themes, including Afterglow ’86, Ember, Ice, Nebula, Reading Room, Smoke, Terrene, Tidal, and Zephyr.",
+            "Navigation and Stability: Additional improvements to browser tabs, redirects, Private Session handling, and navigation recovery."
+          ],
+          "knownIssues": [
+            "Private Session — External Application Tab Cleanup: Some incoming links opened during Private Session may leave temporary tabs open after launching an external application. This occurs when Afon cannot safely establish that the tab belongs exclusively to the external application handoff. Normal browsing-session external application cleanup is unaffected."
+          ],
+          "compatibilityNotes": [
+            "iPhone and iPad require iOS or iPadOS 15 or later.",
+            "Standard remains the default Link Protection mode. Strict Link Protection is available on Android; it is not available in the iOS / iPadOS release.",
+            "Insecure HTTP navigation remains blocked. Use Try HTTPS or Edit Address when offered; Continue Once for HTTP is not available."
+          ]
+        },
         {
           "version": "0.1.3+27",
           "buildNumber": "27",
@@ -96,7 +160,7 @@
           "buildNumber": "24",
           "releaseDate": "September 2026",
           "platforms": ["Android"],
-          "testingStatus": "Current Android Open Testing release",
+          "testingStatus": "Historical Android Open Testing release",
           "summary": "Build 24 focuses on navigation reliability, safer link handling, and a more consistent browsing experience across Android and iOS.",
           "details": "This release includes substantial improvements to how Afon handles links opened from other apps, protected navigation, external-app handoffs, Private sessions, and recovery when a navigation is interrupted or blocked.",
           "improvements": [
@@ -332,7 +396,7 @@
           "buildNumber": "13",
           "releaseDate": "June 2026",
           "platforms": ["Android", "iOS"],
-          "testingStatus": "Previous Android release; latest recorded iOS testing build",
+          "testingStatus": "Historical Android and iOS testing record",
           "summary": "Improved privacy controls, site exception handling, diagnostics, and Android compatibility.",
           "whatsNew": [
             "Fixed Enhanced Privacy selection on Android",

@@ -40,7 +40,7 @@
 
     const details = make("div", "release-details");
     details.appendChild(detail("Build Number", release.buildNumber));
-    details.appendChild(detail("Release Date", release.releaseDate));
+    details.appendChild(detail("Release Date", release.releaseDate || "Date not provided"));
     details.appendChild(detail("Platforms", (release.platforms || []).join(", ")));
     if (release.testingStatus) {
       details.appendChild(detail("Testing Status", release.testingStatus));
@@ -66,6 +66,7 @@
       ["What's New", release.whatsNew],
       ["Fixes", release.fixes],
       [release.knownIssuesTitle || "Known Issues", release.knownIssues],
+      ["Compatibility and Security Notes", release.compatibilityNotes],
       ["Tester Focus", release.testerFocus]
     ].forEach(([title, items]) => {
       const block = section(title, items);
@@ -103,16 +104,21 @@
     const latest = (product.releases || [])[0] || {};
     app.innerHTML = "";
 
+    const baseline = make("article", "info-panel");
+    baseline.appendChild(make("h2", "", `Current distributed testing release: ${latest.version || "Not specified"}`));
+    baseline.appendChild(make("p", "", "Build 28 is distributed through Google Play for Android and TestFlight for iPhone and iPad. Check the version shown by your store or installed app."));
+    app.appendChild(baseline);
+
     const overview = make("section", "grid two testing-grid");
     const current = make("article", "info-panel");
-    current.appendChild(make("h2", "", "Testing Versions"));
+    current.appendChild(make("h2", "", "Testing distribution"));
     const currentDetails = make("div", "release-details stacked");
-    currentDetails.appendChild(detail("Android Version", testing.currentAndroidVersion));
-    currentDetails.appendChild(detail("Current Android Build", testing.currentAndroidBuild));
-    currentDetails.appendChild(detail("Android Testing Status", testing.androidTestingStatus));
-    currentDetails.appendChild(detail("iOS Version", testing.currentIosVersion));
-    currentDetails.appendChild(detail("iOS Build", testing.currentIosBuild));
-    currentDetails.appendChild(detail("iOS Testing Status", testing.iosTestingStatus));
+    currentDetails.appendChild(detail("Android Testing Version", testing.currentAndroidVersion));
+    currentDetails.appendChild(detail("Android Testing Build", testing.currentAndroidBuild));
+    currentDetails.appendChild(detail("Android Distribution", testing.androidTestingStatus));
+    currentDetails.appendChild(detail("iOS Testing Version", testing.currentIosVersion));
+    currentDetails.appendChild(detail("iOS Testing Build", testing.currentIosBuild));
+    currentDetails.appendChild(detail("iOS Distribution", testing.iosTestingStatus));
     current.appendChild(currentDetails);
 
     overview.appendChild(current);
@@ -121,7 +127,8 @@
     );
     if (testingLinks.length) {
       const join = make("article", "info-panel");
-      join.appendChild(make("h2", "", "Join Testing"));
+      join.appendChild(make("h2", "", "Distribution links"));
+      join.appendChild(make("p", "", "Android distribution uses Google Play; the distribution track is unconfirmed. iPhone and iPad distribution uses TestFlight testing. Availability may vary by account, device, or region."));
       const actions = make("div", "action-row");
       testingLinks.forEach((link) => {
         const anchor = make("a", "button primary", link.label);
@@ -141,7 +148,16 @@
     const known = make("article", "info-panel");
     known.appendChild(make("h2", "", "Known Issues"));
     known.appendChild(latest.knownIssues && latest.knownIssues.length ? list(latest.knownIssues) : make("p", "", "No active public issues are listed."));
+    const reviewLink = make("a", "card-link", "Full issue review and historical reports");
+    reviewLink.href = "../../known-issues/afon/";
+    known.appendChild(reviewLink);
     app.appendChild(known);
+    if (latest.compatibilityNotes?.length) {
+      const compatibility = make("article", "info-panel");
+      compatibility.appendChild(make("h2", "", "Compatibility and Security Notes"));
+      compatibility.appendChild(list(latest.compatibilityNotes));
+      app.appendChild(compatibility);
+    }
 
     const feedback = make("article", "info-panel");
     feedback.appendChild(make("h2", "", "Feedback"));
@@ -155,6 +171,33 @@
     app.appendChild(privacy);
   };
 
+  const renderKnownIssues = (product) => {
+    const latest = (product.releases || [])[0] || {};
+    const review = product.issueReview || {};
+    app.innerHTML = "";
+    const active = make("article", "info-panel");
+    active.appendChild(make("h2", "", `Active issues — ${latest.version || "Version not specified"}`));
+    active.appendChild(latest.knownIssues?.length ? list(latest.knownIssues) : make("p", "", "No active public issues are listed."));
+    app.appendChild(active);
+    const compatibility = make("article", "info-panel");
+    compatibility.appendChild(make("h2", "", "Compatibility and Security Notes"));
+    if (latest.compatibilityNotes?.length) compatibility.appendChild(list(latest.compatibilityNotes));
+    app.appendChild(compatibility);
+    [
+      ["Historical reports — verification needed", review.verificationNeeded],
+      ["Resolved or superseded reports", review.resolved]
+    ].forEach(([title, reports]) => {
+      if (!reports?.length) return;
+      const block = make("article", "info-panel");
+      block.appendChild(make("h2", "", title));
+      reports.forEach((report) => {
+        block.appendChild(make("h3", "", report.title));
+        block.appendChild(make("p", "", report.detail));
+      });
+      app.appendChild(block);
+    });
+  };
+
   fetch(dataPath)
     .then((response) => {
       if (!response.ok) throw new Error("Release data could not be loaded.");
@@ -164,6 +207,7 @@
       const product = data.products && data.products[productKey];
       if (!product) throw new Error("Product release data was not found.");
       if (view === "testing") renderTesting(product);
+      else if (view === "known-issues") renderKnownIssues(product);
       else renderPatchNotes(product);
     })
     .catch((error) => {
@@ -171,6 +215,12 @@
       const fallback = make("article", "legal-section");
       fallback.appendChild(make("h2", "", "Release information unavailable"));
       fallback.appendChild(make("p", "", error.message));
+      if (view === "known-issues") {
+        fallback.appendChild(make("p", "", "Private Session: Some incoming external-application links may leave temporary tabs open when exclusive handoff ownership cannot be established. Normal browsing-session cleanup is unaffected."));
+        const support = make("a", "card-link", "Contact support for the current issue review");
+        support.href = "mailto:support@m-techindustries.com";
+        fallback.appendChild(support);
+      }
       app.appendChild(fallback);
     });
 })();

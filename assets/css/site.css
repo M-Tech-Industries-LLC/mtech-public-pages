@@ -485,3 +485,7 @@ li {
   .hero-panel { border-radius: 18px; padding: 18px; }
   .hero-actions, .action-row { display: grid; }
 }
+
+/* Product feature headings and existing theme preview assets. */
+.feature-title { font-size: 1.15rem; line-height: 1.3; }
+.theme-preview { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; margin: 16px 0; border-radius: 10px; background: var(--bg); }

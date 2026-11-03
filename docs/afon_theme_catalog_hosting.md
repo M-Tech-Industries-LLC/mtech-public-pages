@@ -8,7 +8,11 @@ This catalog does not grant access to paid or restricted themes. It is a hosting
 
 ## Static Hosting Model
 
-The public website serves the catalog directly from GitHub Pages:
+M-Tech’s production domain serves theme resources. For Build 28, the released client reads `https://m-techindustries.com/themes/afon/registry.json`, a nine-theme registry with `version`, `packageUrl`, and `sha256Url` fields. Its contract differs from the reference catalog below; do not substitute one schema for the other.
+
+`/afon/themes/` is the human-readable nine-theme gallery. The separate `/afon/themes/catalog.json` reference catalog still contains three records, including staged/experimental statuses and empty signature fields. It is not a complete inventory of Build 28 availability. GitHub Pages remains a compatibility host; production-domain delivery does not prove every historical or entitlement resource has migrated.
+
+The reference catalog contract uses these paths:
 
 - `/afon/themes/catalog.json`
 - `/afon/themes/{themeId}/manifest.json`
@@ -77,7 +81,9 @@ Each theme manifest contains:
 - `tokens`: Cosmetic color and UI tokens.
 - `assets`: Package-relative asset paths.
 
-## Client Fetch Flow
+## Reference Client Fetch Flow
+
+The following describes the reference catalog design, not independently verified Build 28 client enforcement. Build 28 uses the registry path above; the private entitlement service remains separate.
 
 1. Afon opens Theme Manager.
 2. The user enters an unlock code.
@@ -93,7 +99,7 @@ Each theme manifest contains:
 ## Security Boundaries
 
 - No license codes are stored in this repository.
-- No entitlement decisions are made by GitHub Pages.
+- No entitlement decisions are made by the public static website.
 - No account state is stored in the catalog.
 - No executable code is allowed in theme packages.
 - No scripts are allowed in theme packages.
@@ -101,7 +107,7 @@ Each theme manifest contains:
 - No tracking behavior is allowed in theme packages.
 - No browser policy changes are allowed in theme packages.
 - M-Tech license validation remains separate from static hosting.
-- Afon clients must validate entitlement, compatibility, package hash, and signature before installing a theme.
+- The reference contract requires entitlement, compatibility, package hash, and signature validation. Empty catalog signatures do not prove signature readiness or current client enforcement; keep this limitation visible and do not weaken the contract to accommodate missing evidence.
 
 ## Future API/CDN Migration
 

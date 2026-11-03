@@ -26,16 +26,14 @@
         <div class="container">
           <p class="eyebrow">Afon Browser</p>
           <h1>Known Issues</h1>
-          <p class="lede">This page lists currently known issues that may affect Afon Browser. Issues may vary by platform, website, provider, or operating-system behavior.</p>
+          <p class="lede">Current distributed testing release: 0.1.3+28. Active issues, compatibility notes, resolved reports, and older reports awaiting verification are listed separately. Issues can vary by platform, website, provider, or operating system.</p>
         </div>
       </section>
       <section class="section">
-        <div class="container">
-          <article class="legal-section">
-            <h2>No major known issues currently posted.</h2>
-            <p>If you encounter a problem, please report it through the <a href="https://m-techindustries.com/testing/afon/">Afon testing/feedback page</a>.</p>
-          </article>
+        <div class="container release-list" data-release-app data-view="known-issues" data-product="afon" data-data-path="../../assets/data/patch-notes.json">
+          <article class="info-panel"><h2>Private Session — External Application Tab Cleanup</h2><p>Some incoming links opened during Private Session may leave temporary tabs open after launching an external application. This occurs when Afon cannot safely establish that the tab belongs exclusively to the external application handoff. Normal browsing-session external application cleanup is unaffected.</p><p>Enable JavaScript to load the full current and historical issue review, or contact <a href="mailto:support@m-techindustries.com">support@m-techindustries.com</a>.</p></article>
         </div>
+        <div class="container action-row"><a class="button" href="../../support.html">Troubleshooting &amp; FAQ</a><a class="button" href="../../patch-notes/afon/">Release history</a></div>
       </section>
     </main>
   <footer class="site-footer">
@@ -54,5 +52,6 @@
     </div>
   </footer>
   </div>
+  <script src="../../assets/js/patch-notes.js" defer></script>
 </body>
 </html>

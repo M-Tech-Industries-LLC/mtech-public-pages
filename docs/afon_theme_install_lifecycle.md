@@ -2,7 +2,9 @@
 
 ## Purpose
 
-This document defines the client-side lifecycle contract for downloaded Afon themes. GitHub Pages hosts public catalog, manifest, and package metadata, but Afon clients remain responsible for entitlement checks, validation, local installation, activation, rollback, and removal.
+This document defines a reference client-side lifecycle contract for downloaded Afon themes; it is not a Build 28 runtime qualification receipt. The production static website hosts public registry, manifest, and package metadata, but clients remain responsible for entitlement checks, validation, local installation, activation, rollback, and removal.
+
+Build 28 reads `/themes/afon/registry.json` on `https://m-techindustries.com`, with nine theme entries. The three-entry `/afon/themes/catalog.json` and the services below describe a separate reference contract. See the [hosting notes](afon_theme_catalog_hosting.md) for the distinction.
 
 The lifecycle is:
 
@@ -135,9 +137,9 @@ The install lifecycle should remain compatible with a future marketplace or CDN-
 - `classic` remains the safe fallback theme.
 - Theme packages remain cosmetic-only.
 
-## Nebula Phase 1 Lifecycle
+## Historical Nebula Phase 1 Lifecycle
 
-Nebula is the first installable test package for the Phase 1 contract:
+The original Phase 1 example used Nebula:
 
 1. `ThemeRegistryService` fetches `/afon/themes/catalog.json`.
 2. The service locates the `nebula` theme record.
@@ -149,4 +151,4 @@ Nebula is the first installable test package for the Phase 1 contract:
 8. `ThemeActivationService` marks Nebula `active` only after installation succeeds.
 9. If validation or activation fails, the service leaves the current active theme unchanged or restores `classic`.
 
-Nebula remains a metadata-only test package until package download, hash, and signature assets are ready. The client contract still includes package hash and signature fields so the validation path does not need to change later.
+Nebula now has ZIP, SHA-256, manifest, and preview resources; the earlier metadata-only description is historical. The reference catalog still has empty signatures, so package availability must not be described as proof of signature qualification. The validation contract above remains unchanged.
