@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
@@ -38,7 +39,7 @@ function descendants(element) {
   return [element, ...element.children.flatMap(descendants)];
 }
 
-async function renderTesting(links, product, view = "testing", ok = true) {
+async function renderTesting(links, product, view = "testing", ok = true, requests = []) {
   const app = new FakeElement("div");
   app.dataset = {
     product: "afon",
@@ -70,10 +71,13 @@ async function renderTesting(links, product, view = "testing", ok = true) {
       querySelector: () => app,
       createElement: (tagName) => new FakeElement(tagName)
     },
-    fetch: async () => ({
-      ok,
-      json: async () => structuredClone(product ? { products: { afon: product } } : data)
-    }),
+    fetch: async (url, options) => {
+      requests.push({ url, options });
+      return {
+        ok,
+        json: async () => structuredClone(product ? { products: { afon: product } } : data)
+      };
+    },
     structuredClone
   };
   vm.runInNewContext(rendererSource, context);
@@ -326,4 +330,26 @@ test("Build 28 distribution uses TestFlight and leaves the Google Play track unc
   assert.doesNotMatch(text, /Historical distribution records|0.1.3\+24|0.1.1\+13|App Store|production track|public release/i);
   assert.deepEqual(elements.filter((element) => element.tagName === "a" && element.className === "button primary").map((element) => element.href),
     ["https://play.google.com/store/apps/details?id=com.mtech.afon", "https://testflight.apple.com/join/zjH7AkKN"]);
+});
+
+test("release data bypasses a previously cached response on every release-data view", async () => {
+  for (const view of ["patch-notes", "testing", "known-issues"]) {
+    const requests = [];
+    await renderTesting([], undefined, view, true, requests);
+    assert.equal(requests.length, 1);
+    assert.equal(requests[0].url, "/assets/data/patch-notes.json");
+    assert.equal(requests[0].options.cache, "no-store");
+  }
+});
+
+test("release pages invalidate cached data and renderer URLs when their content changes", () => {
+  const dataVersion = createHash("sha256").update(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url))).digest("hex").slice(0, 12);
+  const scriptVersion = createHash("sha256").update(rendererSource).digest("hex").slice(0, 12);
+  for (const path of ["patch-notes/afon/index.html", "testing/afon/index.html", "known-issues/afon/index.html"]) {
+    const html = readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
+    const data = new URL(html.match(/data-data-path="([^"]+)"/)[1], "https://example.test/");
+    const script = new URL(html.match(/<script src="([^"]+)"/)[1], "https://example.test/");
+    assert.equal(data.searchParams.get("v"), dataVersion, path);
+    assert.equal(script.searchParams.get("v"), scriptVersion, path);
+  }
 });

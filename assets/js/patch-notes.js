@@ -198,7 +198,7 @@
     });
   };
 
-  fetch(dataPath)
+  fetch(dataPath, { cache: "no-store" })
     .then((response) => {
       if (!response.ok) throw new Error("Release data could not be loaded.");
       return response.json();
