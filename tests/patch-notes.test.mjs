@@ -200,7 +200,7 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.equal(latest.summary, "Build 25 focuses on reliability and consistency across Afon’s navigation and privacy protections.");
   assert.deepEqual(latest.whatsNew, approvedBullets);
   assert.deepEqual(latest.knownIssues, [knownIssue]);
-  const app = await renderPatchNotes(product.releases.filter((release) => !["26", "27", "28"].includes(release.buildNumber)));
+  const app = await renderPatchNotes(product.releases.filter((release) => !["26", "27", "28", "29"].includes(release.buildNumber)));
   const cards = app.children.filter((element) => element.className === "release-card");
   assert.equal(cards[0].children[0].textContent, "Version 0.1.3+25");
   assert.equal(cards[1].children[0].textContent, "Version 0.1.3+24");
@@ -211,13 +211,17 @@ test("Build 25 preserves approved copy and renders before Build 24", async () =>
   assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), [knownIssue]);
 });
 
-test("newest-release Known Issues surface uses Build 28", async () => {
+test("newest-release Known Issues surface uses all three Build 29 issues", async () => {
   const product = JSON.parse(readFileSync(
     new URL("../assets/data/patch-notes.json", import.meta.url), "utf8"
   )).products.afon;
   const app = await renderTesting(product.testing.links, product);
   const known = app.children.find((element) => element.children[0]?.textContent === "Known Issues");
   assert.deepEqual(descendants(known).filter((element) => element.tagName === "li").map((element) => element.textContent), product.releases[0].knownIssues);
+  assert.equal(product.releases[0].knownIssues.length, 3);
+  assert.match(product.releases[0].knownIssues.join(" "), /iPad Navigation Responsiveness/);
+  assert.match(product.releases[0].knownIssues.join(" "), /Android Fullscreen Video/);
+  assert.match(product.releases[0].knownIssues.join(" "), /Private Session.*External Application Tab Cleanup/);
 });
 
 test("Build 27 preserves approved copy and renders before prior releases", async () => {
@@ -249,7 +253,7 @@ test("Build 27 preserves approved copy and renders before prior releases", async
   assert.ok(release.knownIssues.some((text) => text.includes("not in this iOS release")));
   assert.ok(release.knownIssues.some((text) => text.includes("does not add Continue Once")));
   assert.ok(!release.knownIssues.some((text) => /Yahoo verification|Private tabs may lose/i.test(text)));
-  const app = await renderPatchNotes(product.releases.filter((item) => item.buildNumber !== "28"));
+  const app = await renderPatchNotes(product.releases.filter((item) => !["28", "29"].includes(item.buildNumber)));
   const cards = app.children.filter((element) => element.className === "release-card");
   assert.deepEqual(cards.slice(0, 3).map((card) => card.children[0].textContent),
     ["Version 0.1.3+27", "Version 0.1.3+26", "Version 0.1.3+25"]);
@@ -276,9 +280,9 @@ test("Build 26 remains intact as historical release data", async () => {
   assert.ok(descendants(card).some((element) => element.textContent === "Compatibility and Support Notes"));
 });
 
-test("Build 28 renders current improvements and Private Session limitation before history", async () => {
+test("Build 28 remains intact after the Build 29 entry", async () => {
   const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
-  const release = product.releases[0];
+  const release = product.releases.find((item) => item.buildNumber === "28");
   assert.equal(release.version, "0.1.3+28");
   assert.equal(release.releaseDate, "October 28, 2026");
   assert.equal(release.whatsNew.length, 10);
@@ -286,20 +290,41 @@ test("Build 28 renders current improvements and Private Session limitation befor
   assert.match(release.knownIssues[0], /Private Session.*temporary tabs.*Normal browsing-session external application cleanup is unaffected/);
   const app = await renderPatchNotes(product.releases);
   const cards = app.children.filter((element) => element.className === "release-card");
-  assert.deepEqual(cards.slice(0, 4).map((card) => card.children[0].textContent),
-    ["Version 0.1.3+28", "Version 0.1.3+27", "Version 0.1.3+26", "Version 0.1.3+25"]);
-  const text = descendants(cards[0]).map((element) => element.textContent).join(" ");
+  assert.deepEqual(cards.slice(0, 5).map((card) => card.children[0].textContent),
+    ["Version 0.1.3+29", "Version 0.1.3+28", "Version 0.1.3+27", "Version 0.1.3+26", "Version 0.1.3+25"]);
+  const text = descendants(cards[1]).map((element) => element.textContent).join(" ");
   assert.match(text, /October 28, 2026/);
-  assert.match(descendants(cards[1]).map((element) => element.textContent).join(" "), /October 1, 2026/);
+  assert.match(descendants(cards[2]).map((element) => element.textContent).join(" "), /October 1, 2026/);
   assert.match(text, /not available in the iOS/);
   assert.match(text, /Afterglow ’86, Ember, Ice, Nebula, Reading Room, Smoke, Terrene, Tidal, and Zephyr/);
+});
+
+test("Build 29 preserves sessions within the qualified restoration limits", async () => {
+  const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
+  const release = product.releases[0];
+  assert.equal(release.version, "0.1.3+29");
+  assert.equal(release.buildNumber, "29");
+  assert.equal(release.releaseDate, "Android — November 19, 2026; iOS / iPadOS — availability date not independently verified");
+  assert.equal(release.websitePublicationDate, "Not published — Owner approval pending");
+  assert.equal(release.whatsNew.length, 6);
+  assert.match(release.whatsNew.join(" "), /Saved Normal tabs and browsing history/);
+  assert.match(release.whatsNew.join(" "), /Clearing history in Private Session no longer clears Normal browsing history/);
+  assert.match(release.whatsNew.join(" "), /older restore can no longer override newer navigation/);
+  assert.match(release.details, /saved URLs/);
+  assert.match(release.details, /does not promise restoration of unsaved forms, scroll position, media playback, or full Back\/Forward history/);
+  assert.match(release.details, /does not enable enterprise configuration or policy enforcement/);
+  assert.match(release.whatsNew.join(" "), /Inactive architecture supports future customization and enterprise capabilities/);
+  const app = await renderPatchNotes([release]);
+  const text = descendants(app).map((element) => element.textContent).join(" ");
+  assert.match(text, /App Release Date Android — November 19, 2026; iOS \/ iPadOS — availability date not independently verified/);
+  assert.match(text, /Website Publication Not published — Owner approval pending/);
 });
 
 test("issue review separates confirmed active, unverified historical, and resolved reports", async () => {
   const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
   const app = await renderTesting([], product, "known-issues");
   const headings = descendants(app).filter((element) => element.tagName === "h2").map((element) => element.textContent);
-  assert.deepEqual(headings, ["Active issues — 0.1.3+28", "Compatibility and Security Notes", "Historical reports — verification needed", "Resolved or superseded reports"]);
+  assert.deepEqual(headings, ["Active issues — 0.1.3+29", "Compatibility and Security Notes", "Historical reports — verification needed", "Resolved or superseded reports"]);
   const active = app.children[0];
   assert.deepEqual(descendants(active).filter((element) => element.tagName === "li").map((element) => element.textContent), product.releases[0].knownIssues);
   assert.equal(product.issueReview.verificationNeeded.length, 3);
@@ -315,19 +340,19 @@ test("known issues retain a public warning and support route on fetch failure", 
   assert.ok(descendants(app).some((element) => element.href === "mailto:support@m-techindustries.com"));
 });
 
-test("Build 28 distribution uses TestFlight and leaves the Google Play track unconfirmed", async () => {
+test("Build 29 distribution keeps public channel evidence separate by platform", async () => {
   const product = JSON.parse(readFileSync(new URL("../assets/data/patch-notes.json", import.meta.url), "utf8")).products.afon;
-  assert.equal(product.testing.currentAndroidVersion, "0.1.3+28");
-  assert.equal(product.testing.currentIosVersion, "0.1.3+28");
-  assert.equal(product.testing.currentAndroidBuild, "28");
-  assert.equal(product.testing.currentIosBuild, "28");
+  assert.equal(product.testing.currentAndroidVersion, "0.1.3+29");
+  assert.equal(product.testing.currentIosVersion, "Not independently verified");
+  assert.equal(product.testing.currentAndroidBuild, "29");
+  assert.equal(product.testing.currentIosBuild, "Not independently verified");
   const app = await renderTesting(product.testing.links, product);
   const elements = descendants(app);
   const text = elements.map((element) => element.textContent).join(" ");
-  assert.match(text, /Current distributed testing release: 0.1.3\+28/);
+  assert.match(text, /Latest release notes: 0.1.3\+29/);
   assert.match(text, /Testing distribution/);
-  assert.match(text, /Google Play.*track is unconfirmed/);
-  assert.match(text, /iPhone and iPad distribution uses TestFlight testing/);
+  assert.match(text, /Android Build 29 has a confirmed November 19, 2026 release date.*distribution track/);
+  assert.match(text, /public TestFlight invitation is active.*does not identify the offered build or its availability date/);
   assert.doesNotMatch(text, /Historical distribution records|0.1.3\+24|0.1.1\+13|App Store|production track|public release/i);
   assert.deepEqual(elements.filter((element) => element.tagName === "a" && element.className === "button primary").map((element) => element.href),
     ["https://play.google.com/store/apps/details?id=com.mtech.afon", "https://testflight.apple.com/join/zjH7AkKN"]);

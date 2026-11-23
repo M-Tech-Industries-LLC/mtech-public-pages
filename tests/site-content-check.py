@@ -78,12 +78,27 @@ product = json.loads((ROOT / 'assets/data/patch-notes.json').read_text())['produ
 for link in product['testing']['links']:
     assert urlsplit(link['url']).scheme == 'https'
     external.add(link['url'])
-assert product['releases'][0]['version'] == '0.1.3+28'
+assert product['releases'][0]['version'] == '0.1.3+29'
+assert product['releases'][0]['releaseDate'] == 'Android — November 19, 2026; iOS / iPadOS — availability date not independently verified'
+assert product['releases'][0]['websitePublicationDate'] == 'Not published — Owner approval pending'
+assert len(product['releases'][0]['knownIssues']) == 3
 for path in ['index.html', 'afon.html', 'support.html', 'testing/afon/index.html', 'patch-notes/afon/index.html', 'known-issues/afon/index.html']:
-    assert '0.1.3+28' in (ROOT / path).read_text(), path
-assert 'Build 29' not in json.dumps(product)
+    assert '0.1.3+29' in (ROOT / path).read_text(), path
+assert [r['buildNumber'] for r in product['releases'][1:]] == [
+    '28', '27', '26', '25', '24', '23', '22', '20', '17', '16', '15',
+    '14', '13', '12', '11', '10', '8', '7', '6', '5', '4'
+]
 assert len({r['version'] for r in product['releases']}) == len(product['releases'])
 assert not any('Current Android Open Testing' in r.get('testingStatus', '') or 'latest recorded iOS' in r.get('testingStatus', '') for r in product['releases'])
+
+testing_hub = (ROOT / 'testing/index.html').read_text()
+assert 'Afon Mobile' in testing_hub
+assert 'Senta' not in testing_hub and 'Ironveil' not in testing_hub
+for name, status in [('senta', 'internal operational tool'), ('ironveil', 'development is on hold')]:
+    text = (ROOT / f'testing/{name}/index.html').read_text().lower()
+    assert status in text, name
+    assert 'no public enrollment' in text, name
+    assert 'data-release-app' not in text, name
 
 gallery = pages[ROOT / 'afon/themes/index.html']
 assert gallery.theme_ids == list(EXPECTED), gallery.theme_ids

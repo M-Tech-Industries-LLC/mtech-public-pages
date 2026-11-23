@@ -5,12 +5,14 @@
       "category": "Browser",
       "description": "Afon Browser — Built Around You. Customization, user control, security controls, and dependable browsing from M-Tech Industries.",
       "testing": {
-        "currentAndroidVersion": "0.1.3+28",
-        "currentIosVersion": "0.1.3+28",
-        "currentAndroidBuild": "28",
-        "currentIosBuild": "28",
-        "androidTestingStatus": "Distributed through Google Play — track unconfirmed",
-        "iosTestingStatus": "Distributed through TestFlight — testing release",
+        "summary": "Build 29 release notes are current. Android Build 29 was released on November 19, 2026. The public TestFlight invitation is active, but the offered iOS build and its availability date are not independently exposed.",
+        "currentAndroidVersion": "0.1.3+29",
+        "currentIosVersion": "Not independently verified",
+        "currentAndroidBuild": "29",
+        "currentIosBuild": "Not independently verified",
+        "androidTestingStatus": "Build 29 released November 19, 2026; the Google Play distribution track is unconfirmed",
+        "iosTestingStatus": "Public TestFlight invitation active; Build 29 availability date not independently verified",
+        "distributionNote": "Android Build 29 has a confirmed November 19, 2026 release date, although the public Google Play page does not identify its distribution track. The public TestFlight invitation is active, but it does not identify the offered build or its availability date. Availability may vary by account, device, or region.",
         "links": [
           {
             "label": "Google Play — Android",
@@ -57,6 +59,37 @@
         ]
       },
       "releases": [
+        {
+          "version": "0.1.3+29",
+          "buildNumber": "29",
+          "releaseDate": "Android — November 19, 2026; iOS / iPadOS — availability date not independently verified",
+          "websitePublicationDate": "Not published — Owner approval pending",
+          "platforms": [
+            "Android",
+            "iOS / iPadOS"
+          ],
+          "summary": "Build 29 improves preservation across Normal and Private Session transitions, makes navigation restoration and session lifecycle handling more reliable, and establishes inactive architecture for future customization and enterprise capabilities.",
+          "details": "Restored tabs reopen from saved URLs. This does not promise restoration of unsaved forms, scroll position, media playback, or full Back/Forward history. The customization and enterprise foundations are inactive: Build 29 does not enable enterprise configuration or policy enforcement.",
+          "whatsNew": [
+            "Normal Session Preservation: Saved Normal tabs and browsing history remain available when entering and leaving Private Session.",
+            "Return to Normal Browsing: Leaving Private Session returns to the selected Normal tab and displays its address.",
+            "Private Clear History Isolation: Clearing history in Private Session no longer clears Normal browsing history.",
+            "Safer Session Restoration: In the covered restore flow, an older restore can no longer override newer navigation.",
+            "Saved-URL Recovery: Restored tabs reopen from their saved URLs, within the restoration limits described below.",
+            "Future-Ready Foundation: Inactive architecture supports future customization and enterprise capabilities without enabling enterprise configuration or policy enforcement in Build 29."
+          ],
+          "knownIssues": [
+            "IOS-NAV-01 — iPad Navigation Responsiveness: Links can intermittently load slowly, and Back may respond late or appear unresponsive. The cause remains unconfirmed.",
+            "AND-FS-01 — Android Fullscreen Video: Fullscreen video may remain visible after switching tabs in some cases. No correction is included in Build 29.",
+            "Private Session — External Application Tab Cleanup: Some incoming links opened during Private Session may leave temporary tabs open after launching an external application. This occurs when Afon cannot safely establish that the tab belongs exclusively to the external application handoff. Normal browsing-session external application cleanup is unaffected."
+          ],
+          "compatibilityNotes": [
+            "iPhone and iPad require iOS or iPadOS 15 or later.",
+            "Standard remains the default Link Protection mode. Strict Link Protection is available on Android; it is not available in the iOS / iPadOS release.",
+            "Insecure HTTP navigation remains blocked. Use Try HTTPS or Edit Address when offered; Continue Once for HTTP is not available.",
+            "Customization and enterprise-configuration foundations remain inactive. Build 29 does not enable enterprise policy enforcement."
+          ]
+        },
         {
           "version": "0.1.3+28",
           "buildNumber": "28",
@@ -550,28 +583,28 @@
     },
     "senta": {
       "name": "Senta",
-      "category": "Reserved",
-      "description": "Patch notes and testing information for Senta will be published when public materials are ready.",
+      "category": "Internal operational tool",
+      "description": "Senta is an internal M-Tech operational tool. It is not a public beta or an externally available testing program.",
       "testing": {
-        "currentVersion": "Reserved",
-        "currentAndroidBuild": "Reserved",
-        "currentIosBuild": "Reserved",
+        "currentVersion": "Not publicly distributed",
+        "currentAndroidBuild": "Not applicable",
+        "currentIosBuild": "Not applicable",
         "links": [],
-        "feedback": "Testing information will be added when public materials are ready.",
+        "feedback": "No external tester enrollment is available.",
         "diagnosticExclusions": []
       },
       "releases": []
     },
     "ironveil": {
       "name": "Ironveil",
-      "category": "Reserved",
-      "description": "Patch notes and testing information for Ironveil will be published when public materials are ready.",
+      "category": "Development on hold",
+      "description": "Ironveil development is on hold. It is not accepting external testers and is not in active public qualification.",
       "testing": {
-        "currentVersion": "Reserved",
-        "currentAndroidBuild": "Reserved",
-        "currentIosBuild": "Reserved",
+        "currentVersion": "Development on hold",
+        "currentAndroidBuild": "Not applicable",
+        "currentIosBuild": "Not applicable",
         "links": [],
-        "feedback": "Testing information will be added when public materials are ready.",
+        "feedback": "No external tester enrollment is available.",
         "diagnosticExclusions": []
       },
       "releases": []

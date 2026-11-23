@@ -14,10 +14,10 @@ Do not use this repository for private product code, credentials, internal imple
 - `/afon.html` - Afon Browser product information and current release overview.
 - `/afon/themes/` - Human-readable nine-theme gallery with existing previews and production resource links.
 - `/afon-privacy.html` - Afon privacy policy.
-- `/testing/` - Product testing hub.
+- `/testing/` - Active external product testing hub (Afon Mobile only).
 - `/testing/afon/` - Afon testing information.
-- `/testing/senta/` - Reserved testing route.
-- `/testing/ironveil/` - Reserved testing route.
+- `/testing/senta/` - Senta internal-only availability notice; no public enrollment.
+- `/testing/ironveil/` - Ironveil on-hold availability notice; no public enrollment.
 - `/patch-notes/` - Product patch notes hub.
 - `/patch-notes/afon/` - Afon structured release history.
 - `/patch-notes/senta/` - Reserved patch notes route.
@@ -52,7 +52,7 @@ Never commit secrets, API keys, certificates, signing keys, account details, pri
 | Active known issues and compatibility | Latest release’s `knownIssues` / `compatibilityNotes` in the same JSON; rendered on release, testing, and known-issues pages |
 | Historical issues / closure review | `products.afon.issueReview` in the same JSON; rendered on `known-issues/afon/index.html` |
 | Product copy and static version labels | `index.html`, `afon.html`, `testing/afon/index.html`, `patch-notes/afon/index.html`, `support.html` |
-| Distribution/testing records and links | `products.afon.testing` in the same JSON; existing version/build fields identify the current distributed testing release; iOS uses TestFlight and the Google Play track remains unconfirmed |
+| Distribution/testing records and links | `products.afon.testing` in the same JSON; Android Build 29 is dated November 19, 2026, while the TestFlight public page does not expose the offered build or its availability date |
 | Theme presentation | `afon/themes/index.html`; existing previews/manifests/packages under `themes/afon/` |
 | Build 28 runtime theme discovery | `themes/afon/registry.json`; different from the three-entry reference `afon/themes/catalog.json` |
 | Support / FAQ / contacts | `support.html`; contact addresses also appear in site footers |

@@ -40,7 +40,10 @@
 
     const details = make("div", "release-details");
     details.appendChild(detail("Build Number", release.buildNumber));
-    details.appendChild(detail("Release Date", release.releaseDate || "Date not provided"));
+    details.appendChild(detail("App Release Date", release.releaseDate || "Date not provided"));
+    if (release.websitePublicationDate) {
+      details.appendChild(detail("Website Publication", release.websitePublicationDate));
+    }
     details.appendChild(detail("Platforms", (release.platforms || []).join(", ")));
     if (release.testingStatus) {
       details.appendChild(detail("Testing Status", release.testingStatus));
@@ -105,8 +108,8 @@
     app.innerHTML = "";
 
     const baseline = make("article", "info-panel");
-    baseline.appendChild(make("h2", "", `Current distributed testing release: ${latest.version || "Not specified"}`));
-    baseline.appendChild(make("p", "", "Build 28 is distributed through Google Play for Android and TestFlight for iPhone and iPad. Check the version shown by your store or installed app."));
+    baseline.appendChild(make("h2", "", `Latest release notes: ${latest.version || "Not specified"}`));
+    baseline.appendChild(make("p", "", testing.summary || "Check each platform below for current distribution availability."));
     app.appendChild(baseline);
 
     const overview = make("section", "grid two testing-grid");
@@ -128,7 +131,7 @@
     if (testingLinks.length) {
       const join = make("article", "info-panel");
       join.appendChild(make("h2", "", "Distribution links"));
-      join.appendChild(make("p", "", "Android distribution uses Google Play; the distribution track is unconfirmed. iPhone and iPad distribution uses TestFlight testing. Availability may vary by account, device, or region."));
+      join.appendChild(make("p", "", testing.distributionNote || "Availability may vary by account, device, or region."));
       const actions = make("div", "action-row");
       testingLinks.forEach((link) => {
         const anchor = make("a", "button primary", link.label);
