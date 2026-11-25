@@ -305,7 +305,7 @@ test("Build 29 preserves sessions within the qualified restoration limits", asyn
   assert.equal(release.version, "0.1.3+29");
   assert.equal(release.buildNumber, "29");
   assert.equal(release.releaseDate, "Android — November 19, 2026; iOS / iPadOS — availability date not independently verified");
-  assert.equal(release.websitePublicationDate, "Not published — Owner approval pending");
+  assert.equal(Object.hasOwn(release, "websitePublicationDate"), false);
   assert.equal(release.whatsNew.length, 6);
   assert.match(release.whatsNew.join(" "), /Saved Normal tabs and browsing history/);
   assert.match(release.whatsNew.join(" "), /Clearing history in Private Session no longer clears Normal browsing history/);
@@ -317,7 +317,7 @@ test("Build 29 preserves sessions within the qualified restoration limits", asyn
   const app = await renderPatchNotes([release]);
   const text = descendants(app).map((element) => element.textContent).join(" ");
   assert.match(text, /App Release Date Android — November 19, 2026; iOS \/ iPadOS — availability date not independently verified/);
-  assert.match(text, /Website Publication Not published — Owner approval pending/);
+  assert.doesNotMatch(text, /Website Publication|Owner approval pending/);
 });
 
 test("issue review separates confirmed active, unverified historical, and resolved reports", async () => {

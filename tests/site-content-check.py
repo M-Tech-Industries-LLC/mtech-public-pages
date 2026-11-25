@@ -80,7 +80,8 @@ for link in product['testing']['links']:
     external.add(link['url'])
 assert product['releases'][0]['version'] == '0.1.3+29'
 assert product['releases'][0]['releaseDate'] == 'Android — November 19, 2026; iOS / iPadOS — availability date not independently verified'
-assert product['releases'][0]['websitePublicationDate'] == 'Not published — Owner approval pending'
+assert 'websitePublicationDate' not in product['releases'][0]
+assert 'this preview has not been published' not in (ROOT / 'patch-notes/afon/index.html').read_text()
 assert len(product['releases'][0]['knownIssues']) == 3
 for path in ['index.html', 'afon.html', 'support.html', 'testing/afon/index.html', 'patch-notes/afon/index.html', 'known-issues/afon/index.html']:
     assert '0.1.3+29' in (ROOT / path).read_text(), path
